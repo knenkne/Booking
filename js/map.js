@@ -26,21 +26,26 @@ var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
+
+var getRandomNumber = function (array) {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
 var card = [
   {
     author: {
-      avatar: 'img/avatars/user01.png'
+      avatar: 'img/avatars/user0' + '.png'
     },
 
     offer: {
       title: HOUSE_NAME[4],
       address: HOUSE_LOCATION.x,
       price: HOUSE_PRICE.min,
-      type: HOUSE_TYPE.bungalo,
+      type: getRandomNumber(HOUSE_TYPE),
       rooms: HOUSE__ROOMS.max,
       guests: '5',
-      checkin: CHECKIN[0],
-      checkout: CHECKOUT[2],
+      checkin: getRandomNumber(CHECKIN),
+      checkout: getRandomNumber(CHECKOUT),
       features: FEATURES[5],
       description: '',
       photos: PHOTOS
