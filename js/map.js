@@ -14,7 +14,7 @@ var PIN_LOCATION = {
   maxX: 630,
   minY: 130,
   maxY: 630
-}
+};
 var HOUSE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var HOUSE__ROOMS = {
   min: 1,
@@ -24,7 +24,7 @@ var CHECKIN = ['12:00', '13:00', '14:00'];
 var CHECKOUT = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-
+var MAX_ADS = 8;
 
 var getRandomNumber = function (array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -38,40 +38,55 @@ var getRandomLength = function (array) {
   return Math.floor(Math.random() * array.length);
 };
 
-var card = [
-  {
-    author: {
-      avatar: 'img/avatars/user0' + '.png'
-    },
+var generateAd = function () {
+  var ads = [];
+  for (var i = 0; i < MAX_ADS; i++) {
+    ads.push({
+      author: {
+        avatar: 'img/avatars/user0' + '.png'
+      },
 
-    offer: {
-      title: getRandomNumber(HOUSE_NAME),
-      address: '500, 500',
-      price: getRandomNumberFromTwo(HOUSE_PRICE.min, HOUSE_PRICE.max),
-      type: getRandomNumber(HOUSE_TYPE),
-      rooms: getRandomNumberFromTwo(HOUSE__ROOMS.min, HOUSE__ROOMS.max),
-      guests: '5',
-      checkin: getRandomNumber(CHECKIN),
-      checkout: getRandomNumber(CHECKOUT),
-      features: getRandomLength(FEATURES),
-      description: '',
-      photos: PHOTOS
-    },
+      offer: {
+        title: getRandomNumber(HOUSE_NAME),
+        address: '500, 500',
+        price: getRandomNumberFromTwo(HOUSE_PRICE.min, HOUSE_PRICE.max),
+        type: getRandomNumber(HOUSE_TYPE),
+        rooms: getRandomNumberFromTwo(HOUSE__ROOMS.min, HOUSE__ROOMS.max),
+        guests: '5',
+        checkin: getRandomNumber(CHECKIN),
+        checkout: getRandomNumber(CHECKOUT),
+        features: getRandomLength(FEATURES),
+        description: '',
+        photos: PHOTOS
+      },
 
-    location: {
-      x: getRandomNumberFromTwo(PIN_LOCATION.minX, PIN_LOCATION.maxX),
-      y: getRandomNumberFromTwo(PIN_LOCATION.minY, PIN_LOCATION.maxY)
-    }
-  }];
+      location: {
+        x: getRandomNumberFromTwo(PIN_LOCATION.minX, PIN_LOCATION.maxX),
+        y: getRandomNumberFromTwo(PIN_LOCATION.minY, PIN_LOCATION.maxY)
+      }
+    });
+  }
+  return ads;
+};
+var ads = generateAd();
 
 document.querySelector('.map').classList.remove('map--faded');
 var similarListPin = document.querySelector('.map__pins');
 var similarPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
 
-
-var renderPin = function (element) {
+var renderPins = function (i) {
   var pinElement = similarPinTemplate.cloneNode(true);
-  pinElement.style.left = element.location.x + 'px';
-  pinElement.style.top = element.location.y + 'px';
-  similarListPin.appendChild(pinElement);
+  pinElement.style.left = ads[i].location.x + 'px';
+  pinElement.style.top = ads[i].location.y + 'px';
+  return pinElement;
 };
+
+var setPins = function () {
+  var fragmentPins = document.createDocumentFragment();
+  for (var i = 0; i < ads.length; i++) {
+    fragmentPins.appendChild(renderPins(i));
+  }
+  similarListPin.appendChild(fragmentPins);
+};
+
+setPins();
