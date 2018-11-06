@@ -65,3 +65,13 @@ var card = [
   }];
 
 document.querySelector('.map').classList.remove('map--faded');
+var similarListPin = document.querySelector('.map__pins');
+var similarPinTemplate = document.querySelector('template').content.querySelector('.map__pin');
+
+
+var renderPin = function (element) {
+  var pinElement = similarPinTemplate.cloneNode(true);
+  pinElement.style.left = element.location.x + 'px';
+  pinElement.style.top = element.location.y + 'px';
+  similarListPin.appendChild(pinElement);
+};
