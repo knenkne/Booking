@@ -109,6 +109,13 @@ var similarCardList = document.querySelector('.map__filters-container');
 var similarCardTemplate = document.querySelector('template').content.querySelector('.map__card');
 
 var renderCards = function (i) {
+  var renderPhotos = function () {
+    var image = document.createElement('img');
+    image.classList.add('popup__photo');
+    image.width = '45';
+    image.height = '40';
+    return image;
+  };
   var cardElement = similarCardTemplate.cloneNode(true);
   cardElement.querySelector('.popup__title').textContent = ads[i].offer.title;
   cardElement.querySelector('.popup__text--address').textContent = ads[i].offer.address;
@@ -119,6 +126,11 @@ var renderCards = function (i) {
   cardElement.querySelector('.popup__features').appendChild = ads[i].offer.feautres;
   cardElement.querySelector('.popup__description').textContent = ads[i].offer.description;
   cardElement.querySelector('.popup__avatar').src = ads[i].author.avatar;
+  cardElement.querySelector('.popup__photo').remove();
+  for (var j = 0; j < PHOTOS.length; j++) {
+    var photo = cardElement.querySelector('.popup__photos').appendChild(renderPhotos());
+    photo.src = PHOTOS[j];
+  }
   return cardElement;
 };
 
