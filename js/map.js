@@ -19,8 +19,8 @@ var HOUSE_GUESTS = {
   min: 0,
   max: 10
 };
-var HOUSE_CHECKIN = ['12:00, 13:00, 14:00'];
-var HOUSE_CHECKOUT = ['12:00, 13:00, 14:00'];
+var HOUSE_CHECKIN = ['12:00', '13:00', '14:00'];
+var HOUSE_CHECKOUT = ['12:00', '13:00', '14:00'];
 var HOUSE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var HOUSE_DESCRIPTION = '';
 var HOUSE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -76,7 +76,7 @@ var generateAds = function () {
         guests: getRandomNumber(HOUSE_GUESTS.min, HOUSE_GUESTS.max),
         checkin: getRandomArrayElement(HOUSE_CHECKIN),
         checkout: getRandomArrayElement(HOUSE_CHECKOUT),
-        features: '',
+        features: HOUSE_FEATURES,
         description: '',
         photos: ''
       },
@@ -104,12 +104,31 @@ var renderPin = function () {
   return pinElement;
 };
 
+
+// Генерируем карточку
+var similarCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var renderCard = function () {
+  var cardElement = similarCardTemplate.cloneNode(true);
+  cardElement.querySelector('.popup__title').textContent = ADS[j].offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = ADS[j].offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = ADS[j].offer.price + '₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = ADS[j].offer.type;
+  cardElement.querySelector('.popup__text--capacity').textContent = ADS[j].offer.rooms + ' комнаты для ' + ADS[j].offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ADS[j].offer.checkin + ', выезд до ' + ADS[j].offer.checkout;
+  cardElement.querySelector('.popup__features').textContent = ADS[j].offer.features;
+  cardElement.querySelector('.popup__description').textContent = ADS[j].offer.description;
+  cardElement.querySelector('.popup__avatar').src = ADS[j].author.avatar;
+  return cardElement;
+};
+
 // Генерируем несколько меток и карточек
 var fragment = document.createDocumentFragment();
 var similarPinList = document.querySelector('.map__pins');
+var similarCardList = document.querySelector('.map__filters-container');
 var map = document.querySelector('.map');
 for (var j = 0; j < MAX_ADS; j++) {
   fragment.appendChild(renderPin());
+  map.insertBefore(renderCard(), similarCardList);
 }
 similarPinList.appendChild(fragment);
 
