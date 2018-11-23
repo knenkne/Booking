@@ -75,9 +75,9 @@ var generatePhoto = function () {
 };
 
 // Генерируем удобства
-var generateFeature = function (className) {
+var generateFeature = function (feature) {
   var newFeature = document.createElement('li');
-  newFeature.className = className;
+  newFeature.className = 'popup__feature popup__feature--' + feature;
   return newFeature;
 };
 
@@ -157,7 +157,7 @@ var renderCard = function (ad) {
     features.removeChild(features.firstChild);
   }
   for (var k = 0; k < ad.offer.features.length; k++) {
-    var newFeature = generateFeature('popup__feature popup__feature--' + ad.offer.features[k]);
+    var newFeature = generateFeature(ad.offer.features[k]);
     features.appendChild(newFeature);
   }
   return cardElement;
