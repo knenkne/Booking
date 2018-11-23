@@ -75,11 +75,12 @@ var generatePhoto = function () {
 };
 
 // Генерируем удобства
-var generateFeature = function () {
+var generateFeature = function (className) {
   var newFeature = document.createElement('li');
-  newFeature.className = 'popup__feature';
+  newFeature.className = className;
   return newFeature;
 };
+
 // Генерируем несколько объявлений
 var generateAds = function () {
   var ads = [];
@@ -156,8 +157,7 @@ var renderCard = function (ad) {
     features.removeChild(features.firstChild);
   }
   for (var k = 0; k < ad.offer.features.length; k++) {
-    var newFeature = generateFeature();
-    newFeature.className = 'popup__feature popup__feature--' + ad.offer.features[k];
+    var newFeature = generateFeature('popup__feature popup__feature--' + ad.offer.features[k]);
     features.appendChild(newFeature);
   }
   return cardElement;
