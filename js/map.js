@@ -58,6 +58,19 @@ var getRandomArrayLength = function (array) {
   return array.slice(Math.floor(Math.random() * array.length));
 };
 
+var getShuffledArray = function (array) {
+  var j;
+  var x;
+  var i;
+  for (i = array.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = array[i];
+    array[i] = array[j];
+    array[j] = x;
+  }
+  return array;
+};
+
 // Генерируем аватарки
 var avatars = [];
 for (var i = 0; i < MAX_ADS; i++) {
@@ -102,7 +115,7 @@ var generateAds = function () {
         checkout: getRandomArrayElement(HOUSE_CHECK),
         features: getRandomArrayLength(HOUSE_FEATURES),
         description: HOUSE_DESCRIPTION,
-        photos: HOUSE_PHOTOS
+        photos: getShuffledArray(HOUSE_PHOTOS)
       },
       location: {
         x: locationX,
