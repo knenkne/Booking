@@ -127,7 +127,6 @@ var generateAds = function () {
   return ads;
 };
 var ADS = generateAds();
-
 // Генерируем метку
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var renderPin = function (ad) {
@@ -181,10 +180,41 @@ var fragment = document.createDocumentFragment();
 var similarPinList = document.querySelector('.map__pins');
 var similarCardList = document.querySelector('.map__filters-container');
 var map = document.querySelector('.map');
+var form = document.querySelector('.ad-form');
+var filters = document.querySelector('.map__filters');
+var address = document.querySelector('#address');
 map.insertBefore(renderCard(ADS[0]), similarCardList);
 for (var j = 0; j < MAX_ADS; j++) {
   fragment.appendChild(renderPin(ADS[j]));
 }
 similarPinList.appendChild(fragment);
 
-document.querySelector('.map').classList.remove('map--faded');
+
+// Events
+var MAIN_PIN = {
+  width: 65,
+  height: 65
+};
+
+var activatePage = function () {
+  var fieldsets = form.querySelectorAll('[disabled]');
+  map.classList.remove('map--faded');
+  form.classList.remove('ad-form--disabled');
+  filters.removeAttribute('disabled');
+  for (var k = 0; k < fieldsets.length; k++) {
+    fieldsets[k].removeAttribute('disabled');
+  }
+};
+
+var mainPin = document.querySelector('.map__pin--main');
+var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+address.value = mainPin.style.left + ', ' + mainPin.style.top;
+mainPin.addEventListener('mouseup', function () {
+  activatePage();
+});
+for (var k = 1; k < pins.length; k++) {
+  pins[k].addEventListener('click', function () {
+    map.insertBefore(renderCard(ADS[k]), similarCardList);
+  });
+}
+console.log(pins);
