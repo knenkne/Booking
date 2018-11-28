@@ -35,6 +35,10 @@ var PIN = {
   width: 50,
   height: 70
 };
+var MAIN_PIN = {
+  width: 65,
+  height: 65
+};
 var USER_AVATAR = {
   path: 'img/avatars/user',
   type: 'png'
@@ -126,7 +130,7 @@ var generateAds = function () {
   }
   return ads;
 };
-var ADS = generateAds();
+var ADS;
 // Генерируем метку
 var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var renderPin = function (ad) {
@@ -181,29 +185,22 @@ var similarPinList = document.querySelector('.map__pins');
 var similarCardList = document.querySelector('.map__filters-container');
 var map = document.querySelector('.map');
 var form = document.querySelector('.ad-form');
-var filters = document.querySelector('.map__filters');
 var address = document.querySelector('#address');
-map.insertBefore(renderCard(ADS[0]), similarCardList);
-for (var j = 0; j < MAX_ADS; j++) {
-  fragment.appendChild(renderPin(ADS[j]));
-}
-similarPinList.appendChild(fragment);
-
 
 // Events
-var MAIN_PIN = {
-  width: 65,
-  height: 65
-};
-
 var activatePage = function () {
-  var fieldsets = form.querySelectorAll('[disabled]');
+  var fieldsets = document.querySelectorAll('[disabled]');
   map.classList.remove('map--faded');
   form.classList.remove('ad-form--disabled');
-  filters.removeAttribute('disabled');
   for (var k = 0; k < fieldsets.length; k++) {
     fieldsets[k].removeAttribute('disabled');
   }
+  ADS = generateAds();
+  map.insertBefore(renderCard(ADS[0]), similarCardList);
+  for (var j = 0; j < MAX_ADS; j++) {
+    fragment.appendChild(renderPin(ADS[j]));
+  }
+  similarPinList.appendChild(fragment);
 };
 
 var mainPin = document.querySelector('.map__pin--main');
