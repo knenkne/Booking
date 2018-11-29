@@ -216,9 +216,9 @@ var map = document.querySelector('.map');
 var form = document.querySelector('.ad-form');
 
 // События
+var fieldsets = document.querySelectorAll('[disabled]:not(#address)');
 var activatePage = function () {
   // Убираем атрибуты disabled, заполняем адрес
-  var fieldsets = document.querySelectorAll('[disabled]:not(#address)');
   address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (MAIN_PIN.height + MAIN_PIN.tip));
   map.classList.remove('map--faded');
   form.classList.remove('ad-form--disabled');
@@ -247,4 +247,68 @@ mainPin.addEventListener('mouseup', function () {
 // Заполняем строку адреса
 var address = document.querySelector('#address');
 address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
-console.log(getShuffledArray(HOUSE_PHOTOS));
+
+// Добавляем стили невалидным полям
+var submitButton = form.querySelector('.ad-form__submit');
+var titleField = form.querySelector('#title');
+submitButton.addEventListener('click', function () {
+  if (!titleField.checkValidity()) {
+    titleField.style.boxShadow = '0 0 2px 2px red';
+  }
+  if (!priceField.checkValidity()) {
+    priceField.style.boxShadow = '0 0 2px 2px red';
+  }
+});
+
+// Синхронизируем тип жилья с минимальной стоимостью
+var typeList = form.querySelector('#type');
+var priceField = form.querySelector('#price');
+var onTypePriceChange = function () {
+  if (typeList.value === 'bungalo') {
+    priceField.placeholder = '0';
+    priceField.setAttribute('min', '0');
+  }
+  if (typeList.value === 'flat') {
+    priceField.placeholder = '1000';
+    priceField.setAttribute('min', '1000');
+  }
+  if (typeList.value === 'house') {
+    priceField.placeholder = '5000';
+    priceField.setAttribute('min', '5000');
+  }
+  if (typeList.value === 'palace') {
+    priceField.placeholder = '10000';
+    priceField.setAttribute('min', '10000');
+  }
+};
+typeList.addEventListener('change', onTypePriceChange);
+
+// Возвращаем неактивное состояние
+var resetButton = form.querySelector('.ad-form__reset');
+var resetPage = function () {
+  form.reset();
+  priceField.placeholder = '1000';
+  priceField.setAttribute('min', '1000');
+  map.classList.add('map--faded');
+  form.classList.add('ad-form--disabled');
+  var popup = document.querySelector('.popup');
+  if (popup) {
+    popup.remove();
+  }
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  for (var m = 0; m < pins.length; m++) {
+    pins[m].remove();
+    ads = [];
+  }
+  for (var j = 0; j < fieldsets.length; j++) {
+    fieldsets[j].setAttribute('disabled', '');
+  }
+  if (titleField.style.boxShadow) {
+    titleField.style.boxShadow = '';
+  }
+  if (priceField.style.boxShadow) {
+    priceField.style.boxShadow = '';
+  }
+  address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
+};
+resetButton.addEventListener('click', resetPage);
