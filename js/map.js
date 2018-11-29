@@ -65,16 +65,15 @@ var getRandomArrayLength = function (array) {
 };
 
 var getShuffledArray = function (array) {
-  var j;
-  var x;
-  var i;
-  for (i = array.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    x = array[i];
+  var arrRandom = [];
+  for (var i = 0; i < array.length; i++) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    arrRandom = array.slice(0, array.length);
     array[i] = array[j];
-    array[j] = x;
+    array[j] = temp;
   }
-  return array;
+  return arrRandom;
 };
 
 // Генерируем аватарки
@@ -248,3 +247,4 @@ mainPin.addEventListener('mouseup', function () {
 // Заполняем строку адреса
 var address = document.querySelector('#address');
 address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
+console.log(getShuffledArray(HOUSE_PHOTOS));
