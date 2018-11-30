@@ -3,14 +3,27 @@
 var HOUSE_TITLE = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var HOUSE_PRICE = {
   min: 1000,
-  max: 1000000
+  max: 1000000,
 };
 var HOUSE_TYPE = {
-  palace: 'Дворец',
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунагло'
+  palace: {
+    name: 'Дворец',
+    price: 10000
+  },
+  flat: {
+    name: 'Квартира',
+    price: 1000
+  },
+  house: {
+    name: 'Дом',
+    price: 5000
+  },
+  bungalo: {
+    name: 'Бунагло',
+    price: 0
+  }
 };
+
 var HOUSE_ROOMS = {
   min: 1,
   max: 5
@@ -113,7 +126,7 @@ var generateAds = function () {
         title: HOUSE_TITLE[j],
         address: (locationX + PIN.width / 2) + ', ' + (locationY + PIN.height),
         price: getRandomNumber(HOUSE_PRICE.min, HOUSE_PRICE.max),
-        type: getRandomProperty(HOUSE_TYPE),
+        type: getRandomProperty(HOUSE_TYPE).name,
         rooms: getRandomNumber(HOUSE_ROOMS.min, HOUSE_ROOMS.max),
         guests: getRandomNumber(HOUSE_GUESTS.min, HOUSE_GUESTS.max),
         checkin: getRandomArrayElement(HOUSE_CHECK),
@@ -216,7 +229,7 @@ var map = document.querySelector('.map');
 var form = document.querySelector('.ad-form');
 
 // События
-var fieldsets = document.querySelectorAll('[disabled]:not(#address)');
+var fieldsets = document.querySelectorAll('[disabled]:not(#address):not(option)');
 var activatePage = function () {
   // Убираем атрибуты disabled, заполняем адрес
   address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (MAIN_PIN.height + MAIN_PIN.tip));
@@ -250,35 +263,28 @@ address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' +
 
 // Добавляем стили невалидным полям
 var submitButton = form.querySelector('.ad-form__submit');
-var titleField = form.querySelector('#title');
+var fields = form.querySelectorAll('input');
 submitButton.addEventListener('click', function () {
-  if (!titleField.checkValidity()) {
-    titleField.style.boxShadow = '0 0 2px 2px red';
-  }
-  if (!priceField.checkValidity()) {
-    priceField.style.boxShadow = '0 0 2px 2px red';
+  for (var j = 0; j < fields.length; j++) {
+    if (!fields[j].checkValidity()) {
+      fields[j].style.boxShadow = '0 0 2px 2px red';
+    }
   }
 });
 
 // Синхронизируем тип жилья с минимальной стоимостью
 var typeList = form.querySelector('#type');
 var priceField = form.querySelector('#price');
+var getPriceByType = function (name) {
+  return HOUSE_TYPE[name].price;
+};
 var onTypePriceChange = function () {
-  if (typeList.value === 'bungalo') {
-    priceField.placeholder = '0';
-    priceField.setAttribute('min', '0');
-  }
-  if (typeList.value === 'flat') {
-    priceField.placeholder = '1000';
-    priceField.setAttribute('min', '1000');
-  }
-  if (typeList.value === 'house') {
-    priceField.placeholder = '5000';
-    priceField.setAttribute('min', '5000');
-  }
-  if (typeList.value === 'palace') {
-    priceField.placeholder = '10000';
-    priceField.setAttribute('min', '10000');
+  var keys = Object.keys(HOUSE_TYPE);
+  for (var j = 0; j < keys.length; j++) {
+    if (typeList.value === keys[j]) {
+      priceField.placeholder = getPriceByType(keys[j]);
+      priceField.setAttribute('min', getPriceByType(keys[j]));
+    }
   }
 };
 typeList.addEventListener('change', onTypePriceChange);
@@ -303,11 +309,10 @@ var resetPage = function () {
   for (var j = 0; j < fieldsets.length; j++) {
     fieldsets[j].setAttribute('disabled', '');
   }
-  if (titleField.style.boxShadow) {
-    titleField.style.boxShadow = '';
-  }
-  if (priceField.style.boxShadow) {
-    priceField.style.boxShadow = '';
+  for (var k = 0; k < fields.length; k++) {
+    if (fields[k].checkValidity()) {
+      fields[k].style.boxShadow = '';
+    }
   }
   address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
 };
