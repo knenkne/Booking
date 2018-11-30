@@ -289,6 +289,41 @@ var onTypePriceChange = function () {
 };
 typeList.addEventListener('change', onTypePriceChange);
 
+// Синхронизум время заезда и выезда
+var time = form.querySelector('.ad-form__element--time');
+var timeinList = time.querySelector('#timein');
+var timeoutList = time.querySelector('#timeout');
+var syncTime1 = function () {
+  var selectedList = time.querySelectorAll('[selected]');
+  for (var j = 0; j < selectedList.length; j++) {
+    selectedList[j].removeAttribute('selected');
+  }
+  var index = timeinList.selectedIndex;
+  timeoutList[index].setAttribute('selected', '');
+  timeinList[index].setAttribute('selected', '');
+};
+var syncTime2 = function () {
+  var selectedList = time.querySelectorAll('[selected]');
+  for (var j = 0; j < selectedList.length; j++) {
+    selectedList[j].removeAttribute('selected');
+  }
+  var index = timeoutList.selectedIndex;
+  timeoutList[index].setAttribute('selected', '');
+  timeinList[index].setAttribute('selected', '');
+};
+timeinList.addEventListener('change', syncTime1);
+timeoutList.addEventListener('change', syncTime2);
+// Синхронизируем ко-во комнат и гостей
+var roomsList = form.querySelector('#room_number');
+var guestsList = form.querySelector('#capacity');
+
+roomsList.addEventListener('change', function () {
+  for (var j = 0; j < roomsList.length; j++) {
+    if (roomsList[j].value === guestsList[j].value) {
+      guestsList[j].removeAttribute('disabled', '');
+    }
+  }
+});
 // Возвращаем неактивное состояние
 var resetButton = form.querySelector('.ad-form__reset');
 var resetPage = function () {
@@ -297,6 +332,8 @@ var resetPage = function () {
   priceField.setAttribute('min', '1000');
   map.classList.add('map--faded');
   form.classList.add('ad-form--disabled');
+  timeinList[0].setAttribute('selected', '');
+  timeoutList[0].setAttribute('selected', '');
   var popup = document.querySelector('.popup');
   if (popup) {
     popup.remove();
@@ -306,8 +343,8 @@ var resetPage = function () {
     pins[m].remove();
     ads = [];
   }
-  for (var j = 0; j < fieldsets.length; j++) {
-    fieldsets[j].setAttribute('disabled', '');
+  for (var o = 0; o < fieldsets.length; o++) {
+    fieldsets[o].setAttribute('disabled', '');
   }
   for (var k = 0; k < fields.length; k++) {
     if (fields[k].checkValidity()) {
