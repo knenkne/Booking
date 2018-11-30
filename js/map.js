@@ -313,6 +313,7 @@ var syncTime2 = function () {
 };
 timeinList.addEventListener('change', syncTime1);
 timeoutList.addEventListener('change', syncTime2);
+
 // Синхронизируем ко-во комнат и гостей
 var roomsList = form.querySelector('#room_number');
 var guestsList = form.querySelector('#capacity');
