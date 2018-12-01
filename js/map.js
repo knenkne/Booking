@@ -275,11 +275,11 @@ submitButton.addEventListener('click', function () {
 // Синхронизируем тип жилья с минимальной стоимостью
 var typeList = form.querySelector('#type');
 var priceField = form.querySelector('#price');
-var getPriceByType = function (name) {
-  return HOUSE_TYPE[name].price;
-};
 var onTypePriceChange = function () {
   var keys = Object.keys(HOUSE_TYPE);
+  var getPriceByType = function (name) {
+    return HOUSE_TYPE[name].price;
+  };
   for (var j = 0; j < keys.length; j++) {
     if (typeList.value === keys[j]) {
       priceField.placeholder = getPriceByType(keys[j]);
@@ -307,10 +307,23 @@ var roomsList = form.querySelector('#room_number');
 var guestsList = form.querySelector('#capacity');
 
 roomsList.addEventListener('change', function () {
-  for (var j = 0; j < roomsList.length; j++) {
-    if (roomsList[j].value === guestsList[j].value) {
-      guestsList[j].removeAttribute('disabled');
+  var options = guestsList.querySelectorAll('option');
+  var setDisabled = function () {
+    for (var j = 0; j < options.length; j++) {
+      options[j].setAttribute('disabled', '');
     }
+  };
+  setDisabled();
+  for (var j = 0; j < options.length; j++) {
+    if (roomsList.value >= options[j].value) {
+      options[j].removeAttribute('disabled');
+      options[3].setAttribute('disabled', '');
+    }
+    if (roomsList.value === '100') {
+      options[0].setAttribute('disabled', '');
+      options[3].removeAttribute('disabled');
+    }
+    console.log(options);
   }
 });
 // Возвращаем неактивное состояние
