@@ -293,26 +293,14 @@ typeList.addEventListener('change', onTypePriceChange);
 var time = form.querySelector('.ad-form__element--time');
 var timeinList = time.querySelector('#timein');
 var timeoutList = time.querySelector('#timeout');
-var syncTime1 = function () {
-  var selectedList = time.querySelectorAll('[selected]');
-  for (var j = 0; j < selectedList.length; j++) {
-    selectedList[j].removeAttribute('selected');
-  }
-  var index = timeinList.selectedIndex;
-  timeoutList[index].setAttribute('selected', '');
-  timeinList[index].setAttribute('selected', '');
+var syncTimeOut = function () {
+  timeoutList.value = timeinList.value;
 };
-var syncTime2 = function () {
-  var selectedList = time.querySelectorAll('[selected]');
-  for (var j = 0; j < selectedList.length; j++) {
-    selectedList[j].removeAttribute('selected');
-  }
-  var index = timeoutList.selectedIndex;
-  timeoutList[index].setAttribute('selected', '');
-  timeinList[index].setAttribute('selected', '');
+var syncTimeIn = function () {
+  timeinList.value = timeoutList.value;
 };
-timeinList.addEventListener('change', syncTime1);
-timeoutList.addEventListener('change', syncTime2);
+timeinList.addEventListener('change', syncTimeOut);
+timeoutList.addEventListener('change', syncTimeIn);
 
 // Синхронизируем ко-во комнат и гостей
 var roomsList = form.querySelector('#room_number');
@@ -321,7 +309,7 @@ var guestsList = form.querySelector('#capacity');
 roomsList.addEventListener('change', function () {
   for (var j = 0; j < roomsList.length; j++) {
     if (roomsList[j].value === guestsList[j].value) {
-      guestsList[j].removeAttribute('disabled', '');
+      guestsList[j].removeAttribute('disabled');
     }
   }
 });
