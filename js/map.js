@@ -318,12 +318,13 @@ roomsList.addEventListener('change', function () {
     if (roomsList.value >= options[j].value) {
       options[j].removeAttribute('disabled');
       options[3].setAttribute('disabled', '');
+      guestsList.value = roomsList.value;
     }
     if (roomsList.value === '100') {
       options[0].setAttribute('disabled', '');
       options[3].removeAttribute('disabled');
+      guestsList.value = '0';
     }
-    console.log(options);
   }
 });
 // Возвращаем неактивное состояние
