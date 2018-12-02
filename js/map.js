@@ -229,7 +229,7 @@ var map = document.querySelector('.map');
 var form = document.querySelector('.ad-form');
 
 // События
-var fieldsets = document.querySelectorAll('[disabled]:not(#address):not(option)');
+var fieldsets = document.querySelectorAll('[disabled]:not(option)');
 var activatePage = function () {
   // Убираем атрибуты disabled, заполняем адрес
   address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (MAIN_PIN.height + MAIN_PIN.tip));
@@ -256,9 +256,8 @@ mainPin.addEventListener('mouseup', function () {
   activatePage();
 });
 
-
 // Заполняем строку адреса
-var address = document.querySelector('#address');
+var address = form.querySelector('#address');
 address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
 
 // Добавляем стили невалидным полям
@@ -305,8 +304,7 @@ timeoutList.addEventListener('change', syncTimeIn);
 // Синхронизируем ко-во комнат и гостей
 var roomsList = form.querySelector('#room_number');
 var guestsList = form.querySelector('#capacity');
-
-roomsList.addEventListener('change', function () {
+var onRoomsGuestsChange = function () {
   var options = guestsList.querySelectorAll('option');
   var setDisabled = function () {
     for (var j = 0; j < options.length; j++) {
@@ -317,16 +315,17 @@ roomsList.addEventListener('change', function () {
   for (var j = 0; j < options.length; j++) {
     if (roomsList.value >= options[j].value) {
       options[j].removeAttribute('disabled');
-      options[3].setAttribute('disabled', '');
+      options[options.length - 1].setAttribute('disabled', '');
       guestsList.value = roomsList.value;
     }
     if (roomsList.value === '100') {
       options[0].setAttribute('disabled', '');
-      options[3].removeAttribute('disabled');
+      options[options.length - 1].removeAttribute('disabled');
       guestsList.value = '0';
     }
   }
-});
+};
+roomsList.addEventListener('change', onRoomsGuestsChange);
 // Возвращаем неактивное состояние
 var resetButton = form.querySelector('.ad-form__reset');
 var resetPage = function () {
