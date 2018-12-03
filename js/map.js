@@ -260,17 +260,6 @@ mainPin.addEventListener('mouseup', function () {
 var address = form.querySelector('#address');
 address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
 
-// Добавляем стили невалидным полям
-var submitButton = form.querySelector('.ad-form__submit');
-var fields = form.querySelectorAll('input');
-submitButton.addEventListener('click', function () {
-  for (var j = 0; j < fields.length; j++) {
-    if (!fields[j].checkValidity()) {
-      fields[j].style.boxShadow = '0 0 2px 2px red';
-    }
-  }
-});
-
 // Синхронизируем тип жилья с минимальной стоимостью
 var typeList = form.querySelector('#type');
 var priceField = form.querySelector('#price');
@@ -326,14 +315,25 @@ var onRoomsGuestsChange = function () {
 };
 roomsList.addEventListener('change', onRoomsGuestsChange);
 
+var submitButton = form.querySelector('.ad-form__submit');
+var fields = form.querySelectorAll('input');
 // Проверяем, что кол-во гостей не больше, чем кол-во комнат
-form.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-  if (roomsList.value >= guestsList.value) {
-    form.submit();
-  } else {
+submitButton.addEventListener('click', function (evt) {
+  // Добавляем стили невалидным полям
+  for (var j = 0; j < fields.length; j++) {
+    if (!fields[j].checkValidity()) {
+      evt.preventDefault();
+      fields[j].style.boxShadow = '0 0 2px 2px red';
+    } else {
+      fields[j].style.boxShadow = '';
+    }
+  }
+  if (roomsList.value < guestsList.value && guestsList.value !== '0') {
+    evt.preventDefault();
     guestsList.setCustomValidity('Гостей не может быть больше, чем комнат');
     guestsList.style.boxShadow = '0 0 2px 2px red';
+  } else {
+    guestsList.style.boxShadow = '';
   }
 });
 // Возвращаем неактивное состояние
