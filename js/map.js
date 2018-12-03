@@ -293,13 +293,13 @@ timeoutList.addEventListener('change', syncTimeIn);
 // Синхронизируем ко-во комнат и гостей
 var roomsList = form.querySelector('#room_number');
 var guestsList = form.querySelector('#capacity');
+var options = guestsList.querySelectorAll('option');
+var setDisabled = function () {
+  for (var j = 0; j < options.length; j++) {
+    options[j].setAttribute('disabled', '');
+  }
+};
 var onRoomsGuestsChange = function () {
-  var options = guestsList.querySelectorAll('option');
-  var setDisabled = function () {
-    for (var j = 0; j < options.length; j++) {
-      options[j].setAttribute('disabled', '');
-    }
-  };
   setDisabled();
   for (var j = 0; j < options.length; j++) {
     if (roomsList.value >= options[j].value) {
@@ -311,29 +311,34 @@ var onRoomsGuestsChange = function () {
       options[options.length - 1].removeAttribute('disabled');
       guestsList.value = '0';
     }
+    if (roomsList.value < options[j].value) {
+      guestsList.value = '1';
+    }
+    if (guestsList.value === '0' && roomsList.value !== '100') {
+      guestsList.value = roomsList.value;
+    }
+  }
+};
+var onGuestsRoomsChange = function () {
+  for (var j = 0; j < options.length; j++) {
+    if (roomsList.value < options[j]) {
+      roomsList.value = guestsList.value;
+    }
   }
 };
 roomsList.addEventListener('change', onRoomsGuestsChange);
+guestsList.addEventListener('change', onGuestsRoomsChange);
 
+// Проверяем валидность полей
 var submitButton = form.querySelector('.ad-form__submit');
 var fields = form.querySelectorAll('input');
-// Проверяем, что кол-во гостей не больше, чем кол-во комнат
-submitButton.addEventListener('click', function (evt) {
-  // Добавляем стили невалидным полям
+submitButton.addEventListener('click', function () {
   for (var j = 0; j < fields.length; j++) {
     if (!fields[j].checkValidity()) {
-      evt.preventDefault();
       fields[j].style.boxShadow = '0 0 2px 2px red';
     } else {
       fields[j].style.boxShadow = '';
     }
-  }
-  if (roomsList.value < guestsList.value && guestsList.value !== '0') {
-    evt.preventDefault();
-    guestsList.setCustomValidity('Гостей не может быть больше, чем комнат');
-    guestsList.style.boxShadow = '0 0 2px 2px red';
-  } else {
-    guestsList.style.boxShadow = '';
   }
 });
 // Возвращаем неактивное состояние
