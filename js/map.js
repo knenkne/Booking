@@ -316,7 +316,6 @@ var onRoomsGuestsChange = function () {
     if (roomsList.value >= options[j].value) {
       options[j].removeAttribute('disabled');
       options[options.length - 1].setAttribute('disabled', '');
-      guestsList.value = roomsList.value;
     }
     if (roomsList.value === '100') {
       options[0].setAttribute('disabled', '');
@@ -326,6 +325,17 @@ var onRoomsGuestsChange = function () {
   }
 };
 roomsList.addEventListener('change', onRoomsGuestsChange);
+
+// Проверяем, что кол-во гостей не больше, чем кол-во комнат
+form.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  if (roomsList.value >= guestsList.value) {
+    form.submit();
+  } else {
+    guestsList.setCustomValidity('Гостей не может быть больше, чем комнат');
+    guestsList.style.boxShadow = '0 0 2px 2px red';
+  }
+});
 // Возвращаем неактивное состояние
 var resetButton = form.querySelector('.ad-form__reset');
 var resetPage = function () {
@@ -353,6 +363,7 @@ var resetPage = function () {
       fields[k].style.boxShadow = '';
     }
   }
+  guestsList.style.boxShadow = '';
   address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
 };
 resetButton.addEventListener('click', resetPage);
