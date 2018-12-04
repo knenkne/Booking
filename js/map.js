@@ -38,11 +38,11 @@ var HOUSE_DESCRIPTION = '';
 var HOUSE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var PIN = {
   min: {
-    x: 50,
+    x: 0,
     y: 130
   },
   max: {
-    x: 1150,
+    x: 1200,
     y: 630
   },
   width: 50,
@@ -51,7 +51,9 @@ var PIN = {
 var MAIN_PIN = {
   width: 65,
   height: 65,
-  tip: 22
+  tip: 22,
+  top: 375,
+  left: 570
 };
 var USER_AVATAR = {
   path: 'img/avatars/user',
@@ -116,8 +118,8 @@ var generateFeature = function (feature) {
 var generateAds = function () {
   var ads = [];
   for (var j = 0; j < MAX_ADS; j++) {
-    var locationX = getRandomNumber(PIN.min.x, PIN.max.x);
-    var locationY = getRandomNumber(PIN.min.y, PIN.max.y);
+    var locationX = getRandomNumber(PIN.min.x + PIN.width, PIN.max.x - PIN.width);
+    var locationY = getRandomNumber(PIN.min.y - PIN.height, PIN.max.y - PIN.height);
     var ad = {
       author: {
         avatar: USER_AVATAR.path + avatars[j] + USER_AVATAR.type
@@ -232,7 +234,7 @@ var form = document.querySelector('.ad-form');
 var fieldsets = document.querySelectorAll('[disabled]:not(option)');
 var activatePage = function () {
   // Убираем атрибуты disabled, заполняем адрес
-  address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (MAIN_PIN.height + MAIN_PIN.tip));
+  address.value = Math.round((parseInt(mainPin.style.left, 10)) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (MAIN_PIN.height + MAIN_PIN.tip));
   map.classList.remove('map--faded');
   form.classList.remove('ad-form--disabled');
   for (var k = 0; k < fieldsets.length; k++) {
@@ -286,10 +288,10 @@ mainPin.addEventListener('mousedown', function (evt) {
       newCoords.x = 0;
     }
 
-    if (newCoords.y > PIN.max.y) {
-      newCoords.y = PIN.max.y;
-    } else if (newCoords.y < PIN.min.y) {
-      newCoords.y = PIN.min.y;
+    if (newCoords.y > PIN.max.y - (MAIN_PIN.height + MAIN_PIN.tip)) {
+      newCoords.y = PIN.max.y - (MAIN_PIN.height + MAIN_PIN.tip);
+    } else if (newCoords.y < PIN.min.y - (MAIN_PIN.height + MAIN_PIN.tip)) {
+      newCoords.y = PIN.min.y - (MAIN_PIN.height + MAIN_PIN.tip);
     }
 
     mainPin.style.top = newCoords.y + 'px';
@@ -308,7 +310,7 @@ mainPin.addEventListener('mousedown', function (evt) {
 
 // Заполняем строку адреса
 var address = form.querySelector('#address');
-address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
+address.value = Math.round((parseInt(mainPin.style.left, 10)) + MAIN_PIN.width / 2) + ', ' + Math.round((parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2));
 
 // Синхронизируем тип жилья с минимальной стоимостью
 var typeList = form.querySelector('#type');
@@ -361,11 +363,8 @@ var onRoomsGuestsChange = function () {
       options[options.length - 1].removeAttribute('disabled');
       guestsList.value = '0';
     }
-    if (roomsList.value < options[j].value) {
+    if (roomsList.value < options[j].value || guestsList.value === '0' && roomsList.value !== '100') {
       guestsList.value = '1';
-    }
-    if (guestsList.value === '0' && roomsList.value !== '100') {
-      guestsList.value = roomsList.value;
     }
   }
 };
@@ -419,8 +418,8 @@ var resetPage = function () {
     }
   }
   guestsList.style.boxShadow = '';
-  mainPin.style.top = '375px';
-  mainPin.style.left = '570px';
+  mainPin.style.top = MAIN_PIN.top + 'px';
+  mainPin.style.left = MAIN_PIN.left + 'px';
   address.value = (parseInt(mainPin.style.left, 10) + MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + MAIN_PIN.height / 2);
 };
 resetButton.addEventListener('click', resetPage);
