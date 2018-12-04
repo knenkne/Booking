@@ -25,7 +25,6 @@
       price: 0
     }
   };
-
   var HOUSE_ROOMS = {
     min: 1,
     max: 5
@@ -64,6 +63,7 @@
   var MAX_ADS = 8;
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
+
   var getRandomNumber = function (min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   };
@@ -99,23 +99,23 @@
     MAX_ADS: MAX_ADS,
     MAIN_PIN: MAIN_PIN,
     PIN: PIN,
-    getRandomNumber: getRandomNumber,
     USER_AVATAR: USER_AVATAR,
     HOUSE_TITLE: HOUSE_TITLE,
     HOUSE_TYPE: HOUSE_TYPE,
     HOUSE_PRICE: HOUSE_PRICE,
-    getRandomProperty: getRandomProperty,
     HOUSE_ROOMS: HOUSE_ROOMS,
-    getShuffledArray: getShuffledArray,
     HOUSE_CHECK: HOUSE_CHECK,
     HOUSE_DESCRIPTION: HOUSE_DESCRIPTION,
     HOUSE_PHOTOS: HOUSE_PHOTOS,
     HOUSE_FEATURES: HOUSE_FEATURES,
     HOUSE_GUESTS: HOUSE_GUESTS,
-    getRandomArrayElement: getRandomArrayElement,
-    getRandomArrayLength: getRandomArrayLength,
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
-    ads: ads
+    ads: ads,
+    getRandomArrayElement: getRandomArrayElement,
+    getRandomArrayLength: getRandomArrayLength,
+    getRandomNumber: getRandomNumber,
+    getRandomProperty: getRandomProperty,
+    getShuffledArray: getShuffledArray
   };
 })();

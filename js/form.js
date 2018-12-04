@@ -1,12 +1,23 @@
 'use strict';
 (function () {
-  // Заполняем строку адреса
+
   var form = document.querySelector('.ad-form');
+  var typeList = form.querySelector('#type');
+  var priceField = form.querySelector('#price');
+  var time = form.querySelector('.ad-form__element--time');
+  var timeinList = time.querySelector('#timein');
+  var timeoutList = time.querySelector('#timeout');
+  var submitButton = form.querySelector('.ad-form__submit');
+  var fields = form.querySelectorAll('input');
+  var resetButton = form.querySelector('.ad-form__reset');
+  var roomsList = form.querySelector('#room_number');
+  var guestsList = form.querySelector('#capacity');
+  var options = guestsList.querySelectorAll('option');
+
+  // Заполняем строку адреса
   window.map.address.value = Math.round((parseInt(window.map.mainPin.style.left, 10)) + window.data.MAIN_PIN.width / 2) + ', ' + Math.round((parseInt(window.map.mainPin.style.top, 10) + window.data.MAIN_PIN.height / 2));
 
   // Синхронизируем тип жилья с минимальной стоимостью
-  var typeList = form.querySelector('#type');
-  var priceField = form.querySelector('#price');
   var onTypePriceChange = function () {
     var keys = Object.keys(window.data.HOUSE_TYPE);
     var getPriceByType = function (name) {
@@ -22,9 +33,6 @@
   typeList.addEventListener('change', onTypePriceChange);
 
   // Синхронизум время заезда и выезда
-  var time = form.querySelector('.ad-form__element--time');
-  var timeinList = time.querySelector('#timein');
-  var timeoutList = time.querySelector('#timeout');
   var syncTimeOut = function () {
     timeoutList.value = timeinList.value;
   };
@@ -35,9 +43,6 @@
   timeoutList.addEventListener('change', syncTimeIn);
 
   // Синхронизируем ко-во комнат и гостей
-  var roomsList = form.querySelector('#room_number');
-  var guestsList = form.querySelector('#capacity');
-  var options = guestsList.querySelectorAll('option');
   var setDisabled = function () {
     for (var j = 0; j < options.length; j++) {
       options[j].setAttribute('disabled', '');
@@ -71,8 +76,6 @@
   guestsList.addEventListener('change', onGuestsRoomsChange);
 
   // Проверяем валидность полей
-  var submitButton = form.querySelector('.ad-form__submit');
-  var fields = form.querySelectorAll('input');
   submitButton.addEventListener('click', function () {
     for (var j = 0; j < fields.length; j++) {
       if (!fields[j].checkValidity()) {
@@ -83,7 +86,6 @@
     }
   });
   // Возвращаем неактивное состояние
-  var resetButton = form.querySelector('.ad-form__reset');
   var resetPage = function () {
     form.reset();
     priceField.placeholder = '1000';
