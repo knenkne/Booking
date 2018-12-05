@@ -4,7 +4,7 @@
 
   var card = window.card;
   var data = window.data;
-  var map = window.map;
+  var mapItem = document.querySelector('.map');
   var similarCardList = document.querySelector('.map__filters-container');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
@@ -24,12 +24,13 @@
         popup.remove();
       }
       var cardItem = card.renderCard(data.ads[pinElement.getAttribute('data-pin-number')]);
-      map.mapItem.insertBefore(cardItem, similarCardList);
+      mapItem.insertBefore(cardItem, similarCardList);
     });
 
     return pinElement;
   };
   window.pin = {
-    renderPin: renderPin
+    renderPin: renderPin,
+    mapItem: mapItem
   };
 })();

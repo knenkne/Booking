@@ -7,7 +7,6 @@
   var pin = window.pin;
   var fragment = document.createDocumentFragment();
   var similarPinList = document.querySelector('.map__pins');
-  var mapItem = document.querySelector('.map');
   var form = document.querySelector('.ad-form');
   var fieldsets = document.querySelectorAll('[disabled]:not(option)');
   var address = form.querySelector('#address');
@@ -56,7 +55,7 @@
 
     // Убираем атрибуты disabled, заполняем адрес
     address.value = Math.round((parseInt(mainPin.style.left, 10)) + data.MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (data.MAIN_PIN.height + data.MAIN_PIN.tip));
-    mapItem.classList.remove('map--faded');
+    pin.mapItem.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
     for (var k = 0; k < fieldsets.length; k++) {
       fieldsets[k].removeAttribute('disabled');
@@ -103,7 +102,7 @@
         y: mainPin.offsetTop - shift.y
       };
 
-      var mapWidth = mapItem.offsetWidth - mainPin.offsetWidth;
+      var mapWidth = pin.mapItem.offsetWidth - mainPin.offsetWidth;
       if (newCoords.x > mapWidth) {
         newCoords.x = mapWidth;
       } else if (newCoords.x < 0) {
@@ -133,7 +132,6 @@
   window.map = {
     mainPin: mainPin,
     address: address,
-    mapItem: mapItem,
     fieldsets: fieldsets,
   };
 })();
