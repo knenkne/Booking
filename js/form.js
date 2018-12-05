@@ -1,6 +1,8 @@
 'use strict';
 (function () {
 
+  var map = window.map;
+  var data = window.data;
   var form = document.querySelector('.ad-form');
   var typeList = form.querySelector('#type');
   var priceField = form.querySelector('#price');
@@ -15,13 +17,13 @@
   var options = guestsList.querySelectorAll('option');
 
   // Заполняем строку адреса
-  window.map.address.value = Math.round((parseInt(window.map.mainPin.style.left, 10)) + window.data.MAIN_PIN.width / 2) + ', ' + Math.round((parseInt(window.map.mainPin.style.top, 10) + window.data.MAIN_PIN.height / 2));
+  map.address.value = Math.round((parseInt(map.mainPin.style.left, 10)) + data.MAIN_PIN.width / 2) + ', ' + Math.round((parseInt(map.mainPin.style.top, 10) + data.MAIN_PIN.height / 2));
 
   // Синхронизируем тип жилья с минимальной стоимостью
   var onTypePriceChange = function () {
-    var keys = Object.keys(window.data.HOUSE_TYPE);
+    var keys = Object.keys(data.HOUSE_TYPE);
     var getPriceByType = function (name) {
-      return window.data.HOUSE_TYPE[name].price;
+      return data.HOUSE_TYPE[name].price;
     };
     for (var j = 0; j < keys.length; j++) {
       if (typeList.value === keys[j]) {
@@ -90,7 +92,7 @@
     form.reset();
     priceField.placeholder = '1000';
     priceField.setAttribute('min', '1000');
-    window.map.map.classList.add('map--faded');
+    map.map.classList.add('map--faded');
     form.classList.add('ad-form--disabled');
     timeinList[0].setAttribute('selected', '');
     timeoutList[0].setAttribute('selected', '');
@@ -101,10 +103,10 @@
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     for (var m = 0; m < pins.length; m++) {
       pins[m].remove();
-      window.data.ads = [];
+      data.ads = [];
     }
-    for (var o = 0; o < window.map.fieldsets.length; o++) {
-      window.map.fieldsets[o].setAttribute('disabled', '');
+    for (var o = 0; o < map.fieldsets.length; o++) {
+      map.fieldsets[o].setAttribute('disabled', '');
     }
     for (var k = 0; k < fields.length; k++) {
       if (fields[k].checkValidity()) {
@@ -112,9 +114,9 @@
       }
     }
     guestsList.style.boxShadow = '';
-    window.map.mainPin.style.top = window.data.MAIN_PIN.top + 'px';
-    window.map.mainPin.style.left = window.data.MAIN_PIN.left + 'px';
-    window.map.address.value = (parseInt(window.map.mainPin.style.left, 10) + window.data.MAIN_PIN.width / 2) + ', ' + (parseInt(window.map.mainPin.style.top, 10) + window.data.MAIN_PIN.height / 2);
+    map.mainPin.style.top = data.MAIN_PIN.top + 'px';
+    map.mainPin.style.left = data.MAIN_PIN.left + 'px';
+    map.address.value = (parseInt(map.mainPin.style.left, 10) + data.MAIN_PIN.width / 2) + ', ' + (parseInt(map.mainPin.style.top, 10) + data.MAIN_PIN.height / 2);
   };
   resetButton.addEventListener('click', resetPage);
 })();

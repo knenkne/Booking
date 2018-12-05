@@ -61,12 +61,12 @@
       cardElementClose();
     });
     cardElementCloseHandler.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.data.ENTER_KEYCODE) {
+      if (evt.keyCode === window.data.KEYCODES.enter) {
         cardElementClose();
       }
     });
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.data.ESC_KEYCODE) {
+      if (evt.keyCode === window.data.KEYCODES.esc) {
         cardElementClose();
       }
     });

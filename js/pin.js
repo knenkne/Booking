@@ -2,6 +2,9 @@
 
 (function () {
 
+  var card = window.card;
+  var data = window.data;
+  var map = window.map;
   var similarCardList = document.querySelector('.map__filters-container');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
@@ -20,13 +23,12 @@
       if (popup) {
         popup.remove();
       }
-      var card = window.card.renderCard(window.data.ads[pinElement.getAttribute('data-pin-number')]);
-      window.map.map.insertBefore(card, similarCardList);
+      var cardItem = card.renderCard(data.ads[pinElement.getAttribute('data-pin-number')]);
+      map.mapItem.insertBefore(cardItem, similarCardList);
     });
 
     return pinElement;
   };
-
   window.pin = {
     renderPin: renderPin
   };

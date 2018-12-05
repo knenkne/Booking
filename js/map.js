@@ -2,41 +2,44 @@
 
 (function () {
 
+  var utils = window.utils;
+  var data = window.data;
+  var pin = window.pin;
   var fragment = document.createDocumentFragment();
   var similarPinList = document.querySelector('.map__pins');
-  var map = document.querySelector('.map');
+  var mapItem = document.querySelector('.map');
   var form = document.querySelector('.ad-form');
   var fieldsets = document.querySelectorAll('[disabled]:not(option)');
   var address = form.querySelector('#address');
 
   // Генерируем аватарки
   var avatars = [];
-  for (var i = 0; i < window.data.MAX_ADS; i++) {
+  for (var i = 0; i < data.MAX_ADS; i++) {
     avatars.push('0' + (i + 1) + '.');
   }
 
   // Генерируем несколько объявлений
   var generateAds = function () {
     var ads = [];
-    for (var j = 0; j < window.data.MAX_ADS; j++) {
-      var locationX = window.data.getRandomNumber(window.data.PIN.min.x + window.data.PIN.width, window.data.PIN.max.x - window.data.PIN.width);
-      var locationY = window.data.getRandomNumber(window.data.PIN.min.y - window.data.PIN.height, window.data.PIN.max.y - window.data.PIN.height);
+    for (var j = 0; j < data.MAX_ADS; j++) {
+      var locationX = utils.getRandomNumber(data.PIN.min.x + data.PIN.width, data.PIN.max.x - data.PIN.width);
+      var locationY = utils.getRandomNumber(data.PIN.min.y - data.PIN.height, data.PIN.max.y - data.PIN.height);
       var ad = {
         author: {
-          avatar: window.data.USER_AVATAR.path + avatars[j] + window.data.USER_AVATAR.type
+          avatar: data.USER_AVATAR.path + avatars[j] + data.USER_AVATAR.type
         },
         offer: {
-          title: window.data.HOUSE_TITLE[j],
-          address: (locationX + window.data.PIN.width / 2) + ', ' + (locationY + window.data.PIN.height),
-          price: window.data.getRandomNumber(window.data.HOUSE_PRICE.min, window.data.HOUSE_PRICE.max),
-          type: window.data.getRandomProperty(window.data.HOUSE_TYPE).name,
-          rooms: window.data.getRandomNumber(window.data.HOUSE_ROOMS.min, window.data.HOUSE_ROOMS.max),
-          guests: window.data.getRandomNumber(window.data.HOUSE_GUESTS.min, window.data.HOUSE_GUESTS.max),
-          checkin: window.data.getRandomArrayElement(window.data.HOUSE_CHECK),
-          checkout: window.data.getRandomArrayElement(window.data.HOUSE_CHECK),
-          features: window.data.getRandomArrayLength(window.data.HOUSE_FEATURES),
-          description: window.data.HOUSE_DESCRIPTION,
-          photos: window.data.getShuffledArray(window.data.HOUSE_PHOTOS)
+          title: data.HOUSE_TITLE[j],
+          address: (locationX + data.PIN.width / 2) + ', ' + (locationY + data.PIN.height),
+          price: utils.getRandomNumber(data.HOUSE_PRICE.min, data.HOUSE_PRICE.max),
+          type: utils.getRandomProperty(data.HOUSE_TYPE).name,
+          rooms: utils.getRandomNumber(data.HOUSE_ROOMS.min, data.HOUSE_ROOMS.max),
+          guests: utils.getRandomNumber(data.HOUSE_GUESTS.min, data.HOUSE_GUESTS.max),
+          checkin: utils.getRandomArrayElement(data.HOUSE_CHECK),
+          checkout: utils.getRandomArrayElement(data.HOUSE_CHECK),
+          features: utils.getRandomArrayLength(data.HOUSE_FEATURES),
+          description: utils.HOUSE_DESCRIPTION,
+          photos: utils.getShuffledArray(data.HOUSE_PHOTOS)
         },
         location: {
           x: locationX,
@@ -52,20 +55,20 @@
   var activatePage = function () {
 
     // Убираем атрибуты disabled, заполняем адрес
-    address.value = Math.round((parseInt(mainPin.style.left, 10)) + window.data.MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (window.data.MAIN_PIN.height + window.data.MAIN_PIN.tip));
-    map.classList.remove('map--faded');
+    address.value = Math.round((parseInt(mainPin.style.left, 10)) + data.MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (data.MAIN_PIN.height + data.MAIN_PIN.tip));
+    mapItem.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
     for (var k = 0; k < fieldsets.length; k++) {
       fieldsets[k].removeAttribute('disabled');
     }
 
     // Отрисовываем пины
-    if (window.data.ads.length === 0) {
-      window.data.ads = generateAds();
-      for (var j = 0; j < window.data.MAX_ADS; j++) {
-        var pin = window.pin.renderPin(window.data.ads[j]);
-        pin.setAttribute('data-pin-number', j);
-        fragment.appendChild(pin);
+    if (data.ads.length === 0) {
+      data.ads = generateAds();
+      for (var j = 0; j < data.MAX_ADS; j++) {
+        var pinItem = pin.renderPin(data.ads[j]);
+        pinItem.setAttribute('data-pin-number', j);
+        fragment.appendChild(pinItem);
       }
     }
     similarPinList.appendChild(fragment);
@@ -100,17 +103,17 @@
         y: mainPin.offsetTop - shift.y
       };
 
-      var mapWidth = map.offsetWidth - mainPin.offsetWidth;
+      var mapWidth = mapItem.offsetWidth - mainPin.offsetWidth;
       if (newCoords.x > mapWidth) {
         newCoords.x = mapWidth;
       } else if (newCoords.x < 0) {
         newCoords.x = 0;
       }
 
-      if (newCoords.y > window.data.PIN.max.y - (window.data.MAIN_PIN.height + window.data.MAIN_PIN.tip)) {
-        newCoords.y = window.data.PIN.max.y - (window.data.MAIN_PIN.height + window.data.MAIN_PIN.tip);
-      } else if (newCoords.y < window.data.PIN.min.y - (window.data.MAIN_PIN.height + window.data.MAIN_PIN.tip)) {
-        newCoords.y = window.data.PIN.min.y - (window.data.MAIN_PIN.height + window.data.MAIN_PIN.tip);
+      if (newCoords.y > data.PIN.max.y - (data.MAIN_PIN.height + data.MAIN_PIN.tip)) {
+        newCoords.y = data.PIN.max.y - (data.MAIN_PIN.height + data.MAIN_PIN.tip);
+      } else if (newCoords.y < data.PIN.min.y - (data.MAIN_PIN.height + data.MAIN_PIN.tip)) {
+        newCoords.y = data.PIN.min.y - (data.MAIN_PIN.height + data.MAIN_PIN.tip);
       }
 
       mainPin.style.top = newCoords.y + 'px';
@@ -130,7 +133,7 @@
   window.map = {
     mainPin: mainPin,
     address: address,
-    map: map,
+    mapItem: mapItem,
     fieldsets: fieldsets,
   };
 })();
