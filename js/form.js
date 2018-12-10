@@ -3,6 +3,7 @@
 
   var map = window.map;
   var data = window.data;
+  var pin = window.pin;
   var form = document.querySelector('.ad-form');
   var typeList = form.querySelector('#type');
   var priceField = form.querySelector('#price');
@@ -92,7 +93,7 @@
     form.reset();
     priceField.placeholder = '1000';
     priceField.setAttribute('min', '1000');
-    map.map.classList.add('map--faded');
+    pin.mapItem.classList.add('map--faded');
     form.classList.add('ad-form--disabled');
     timeinList[0].setAttribute('selected', '');
     timeoutList[0].setAttribute('selected', '');
@@ -116,7 +117,14 @@
     guestsList.style.boxShadow = '';
     map.mainPin.style.top = data.MAIN_PIN.top + 'px';
     map.mainPin.style.left = data.MAIN_PIN.left + 'px';
-    map.address.value = (parseInt(map.mainPin.style.left, 10) + data.MAIN_PIN.width / 2) + ', ' + (parseInt(map.mainPin.style.top, 10) + data.MAIN_PIN.height / 2);
+    map.address.value = Math.round((parseInt(map.mainPin.style.left, 10) + data.MAIN_PIN.width / 2)) + ', ' + Math.round((parseInt(map.mainPin.style.top, 10) + data.MAIN_PIN.height / 2));
   };
   resetButton.addEventListener('click', resetPage);
+
+  form.addEventListener('submit', function (evt) {
+    window.upload(new FormData(form), function () {
+      resetPage();
+    });
+    evt.preventDefault();
+  });
 })();

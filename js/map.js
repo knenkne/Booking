@@ -2,7 +2,9 @@
 
 (function () {
 
+  /*
   var utils = window.utils;
+  */
   var data = window.data;
   var pin = window.pin;
   var fragment = document.createDocumentFragment();
@@ -17,9 +19,9 @@
     avatars.push('0' + (i + 1) + '.');
   }
 
+  /*
   // Генерируем несколько объявлений
   var generateAds = function () {
-    var ads = [];
     for (var j = 0; j < data.MAX_ADS; j++) {
       var locationX = utils.getRandomNumber(data.PIN.min.x + data.PIN.width, data.PIN.max.x - data.PIN.width);
       var locationY = utils.getRandomNumber(data.PIN.min.y - data.PIN.height, data.PIN.max.y - data.PIN.height);
@@ -49,7 +51,7 @@
     }
     return ads;
   };
-
+  */
   // Активируем страницу
   var activatePage = function () {
 
@@ -63,12 +65,14 @@
 
     // Отрисовываем пины
     if (data.ads.length === 0) {
-      data.ads = generateAds();
-      for (var j = 0; j < data.MAX_ADS; j++) {
-        var pinItem = pin.renderPin(data.ads[j]);
-        pinItem.setAttribute('data-pin-number', j);
-        fragment.appendChild(pinItem);
-      }
+      window.load(function (ads) {
+        data.ads = ads;
+        for (var j = 0; j < ads.length; j++) {
+          var pinItem = pin.renderPin(ads[j]);
+          pinItem.setAttribute('data-pin-number', j);
+          fragment.appendChild(pinItem);
+        }
+      });
     }
     similarPinList.appendChild(fragment);
   };
