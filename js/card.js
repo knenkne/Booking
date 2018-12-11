@@ -30,11 +30,11 @@
       cardElement.querySelector('.popup__title').textContent = ad.offer.title;
       cardElement.querySelector('.popup__text--address').textContent = ad.offer.address;
       cardElement.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-      for (var i = 0; i < houseTypeKeys.length; i++) {
-        if (ad.offer.type === houseTypeKeys[i]) {
-          cardElement.querySelector('.popup__type').textContent = data.HOUSE_TYPE[houseTypeKeys[i]].name;
+      houseTypeKeys.forEach(function (houseTypeKey) {
+        if (ad.offer.type === houseTypeKey) {
+          cardElement.querySelector('.popup__type').textContent = data.HOUSE_TYPE[houseTypeKey].name;
         }
-      }
+      });
       cardElement.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей';
       cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до ' + ad.offer.checkout;
       cardElement.querySelector('.popup__description').textContent = ad.offer.description;
@@ -44,11 +44,11 @@
       if (ad.offer.photos.length !== 0) {
         // Удаляем старое фото и добавляем новые
         photos.removeChild(photo);
-        for (var j = 0; j < ad.offer.photos.length; j++) {
+        ad.offer.photos.forEach(function (photoElement) {
           var newPhoto = generatePhoto();
-          newPhoto.src = ad.offer.photos[j];
+          newPhoto.src = photoElement;
           photos.appendChild(newPhoto);
-        }
+        });
       } else {
         photos.remove();
       }
@@ -58,10 +58,10 @@
         while (features.firstChild) {
           features.removeChild(features.firstChild);
         }
-        for (var k = 0; k < ad.offer.features.length; k++) {
-          var newFeature = generateFeature(ad.offer.features[k]);
+        ad.offer.features.forEach(function (feature) {
+          var newFeature = generateFeature(feature);
           features.appendChild(newFeature);
-        }
+        });
       } else {
         features.remove();
       }

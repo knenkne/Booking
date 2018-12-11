@@ -26,12 +26,12 @@
     var getPriceByType = function (name) {
       return data.HOUSE_TYPE[name].price;
     };
-    for (var j = 0; j < keys.length; j++) {
-      if (typeList.value === keys[j]) {
-        priceField.placeholder = getPriceByType(keys[j]);
-        priceField.setAttribute('min', getPriceByType(keys[j]));
+    keys.forEach(function (key) {
+      if (typeList.value === key) {
+        priceField.placeholder = getPriceByType(key);
+        priceField.setAttribute('min', getPriceByType(key));
       }
-    }
+    });
   };
   typeList.addEventListener('change', onTypePriceChange);
 
@@ -47,15 +47,15 @@
 
   // Синхронизируем ко-во комнат и гостей
   var setDisabled = function () {
-    for (var j = 0; j < options.length; j++) {
-      options[j].setAttribute('disabled', '');
-    }
+    options.forEach(function (option) {
+      option.setAttribute('disabled', '');
+    });
   };
   var onRoomsGuestsChange = function () {
     setDisabled();
-    for (var j = 0; j < options.length; j++) {
-      if (roomsList.value >= options[j].value) {
-        options[j].removeAttribute('disabled');
+    options.forEach(function (option) {
+      if (roomsList.value >= option.value) {
+        option.removeAttribute('disabled');
         options[options.length - 1].setAttribute('disabled', '');
       }
       if (roomsList.value === '100') {
@@ -63,30 +63,30 @@
         options[options.length - 1].removeAttribute('disabled');
         guestsList.value = '0';
       }
-      if (roomsList.value < options[j].value || guestsList.value === '0' && roomsList.value !== '100') {
+      if (roomsList.value < option.value || guestsList.value === '0' && roomsList.value !== '100') {
         guestsList.value = '1';
       }
-    }
+    });
   };
   var onGuestsRoomsChange = function () {
-    for (var j = 0; j < options.length; j++) {
-      if (roomsList.value < options[j]) {
+    options.forEach(function (option) {
+      if (roomsList.value < option) {
         roomsList.value = guestsList.value;
       }
-    }
+    });
   };
   roomsList.addEventListener('change', onRoomsGuestsChange);
   guestsList.addEventListener('change', onGuestsRoomsChange);
 
   // Проверяем валидность полей
   submitButton.addEventListener('click', function () {
-    for (var j = 0; j < fields.length; j++) {
-      if (!fields[j].checkValidity()) {
-        fields[j].style.boxShadow = '0 0 2px 2px red';
+    fields.forEach(function (field) {
+      if (!field.checkValidity()) {
+        field.style.boxShadow = '0 0 2px 2px red';
       } else {
-        fields[j].style.boxShadow = '';
+        field.style.boxShadow = '';
       }
-    }
+    });
   });
   // Возвращаем неактивное состояние
   var resetPage = function () {
@@ -103,18 +103,18 @@
       popup.remove();
     }
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var m = 0; m < pins.length; m++) {
-      pins[m].remove();
+    pins.forEach(function (pinElement) {
+      pinElement.remove();
       data.ads = [];
-    }
-    for (var o = 0; o < map.fieldsets.length; o++) {
-      map.fieldsets[o].setAttribute('disabled', '');
-    }
-    for (var k = 0; k < fields.length; k++) {
-      if (fields[k].checkValidity()) {
-        fields[k].style.boxShadow = '';
+    });
+    map.fieldsets.forEach(function (fieldset) {
+      fieldset.setAttribute('disabled', '');
+    });
+    fields.forEach(function (field) {
+      if (field.checkValidity()) {
+        field.style.boxShadow = '';
       }
-    }
+    });
     guestsList.style.boxShadow = '';
     map.mainPin.style.top = data.MAIN_PIN.top + 'px';
     map.mainPin.style.left = data.MAIN_PIN.left + 'px';

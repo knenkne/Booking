@@ -22,9 +22,9 @@
     address.value = Math.round((parseInt(mainPin.style.left, 10)) + data.MAIN_PIN.width / 2) + ', ' + (parseInt(mainPin.style.top, 10) + (data.MAIN_PIN.height + data.MAIN_PIN.tip));
     pin.mapItem.classList.remove('map--faded');
     form.classList.remove('ad-form--disabled');
-    for (var k = 0; k < fieldsets.length; k++) {
-      fieldsets[k].removeAttribute('disabled');
-    }
+    fieldsets.forEach(function (fieldset) {
+      fieldset.removeAttribute('disabled');
+    });
 
     // Отрисовываем пины
     var successHandler = function (ads) {

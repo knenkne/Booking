@@ -20,9 +20,9 @@
     // Отрисовываем объявление в соответствии с пином
     pinElement.addEventListener('click', function () {
       var activePinElements = document.querySelectorAll('.map__pin--active');
-      for (var i = 0; i < activePinElements.length; i++) {
-        activePinElements[i].classList.remove('map__pin--active');
-      }
+      activePinElements.forEach(function (activatePinElement) {
+        activatePinElement.classList.remove('map__pin--active');
+      });
       pinElement.classList.add('map__pin--active');
       var popup = document.querySelector('.popup');
       if (popup) {
