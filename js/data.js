@@ -67,6 +67,7 @@
   };
 
   var ads = [];
+  var loadingHandler = false;
 
   window.data = {
     MAX_ADS: MAX_ADS,
@@ -84,5 +85,6 @@
     HOUSE_GUESTS: HOUSE_GUESTS,
     KEYCODES: KEYCODES,
     ads: ads,
+    loadingHandler: loadingHandler
   };
 })();

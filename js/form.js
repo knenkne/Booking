@@ -91,6 +91,7 @@
   // Возвращаем неактивное состояние
   var resetPage = function () {
     form.reset();
+    data.loadingHandler = false;
     priceField.placeholder = '1000';
     priceField.setAttribute('min', '1000');
     pin.mapItem.classList.add('map--faded');

@@ -9,7 +9,6 @@
   var form = document.querySelector('.ad-form');
   var fieldsets = document.querySelectorAll('[disabled]:not(option)');
   var address = form.querySelector('#address');
-
   // Генерируем аватарки
   var avatars = [];
   for (var i = 0; i < data.MAX_ADS; i++) {
@@ -29,13 +28,11 @@
 
     // Отрисовываем пины
     var successHandler = function (ads) {
-      if (data.ads.length === 0) {
-        data.ads = ads;
-        for (var j = 0; j < data.MAX_ADS; j++) {
-          var pinItem = pin.renderPin(ads[j]);
-          pinItem.setAttribute('data-pin-number', j);
-          fragment.appendChild(pinItem);
-        }
+      data.ads = ads;
+      for (var j = 0; j < data.MAX_ADS; j++) {
+        var pinItem = pin.renderPin(ads[j]);
+        pinItem.setAttribute('data-pin-number', j);
+        fragment.appendChild(pinItem);
       }
     };
     var errorHandler = function (message) {
@@ -58,10 +55,13 @@
       main.insertAdjacentElement('afterbegin', errorElement);
     };
     similarPinList.appendChild(fragment);
-    window.load(successHandler, errorHandler);
+    if (data.loadingHandler === false) {
+      data.loadingHandler = true;
+      window.load(successHandler, errorHandler);
+    }
   };
 
-  // Перемещение пина
+  // Перемещение пинаа
   var mainPin = document.querySelector('.map__pin--main');
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
