@@ -2,9 +2,6 @@
 
 (function () {
 
-  /*
-  var utils = window.utils;
-  */
   var data = window.data;
   var pin = window.pin;
   var fragment = document.createDocumentFragment();
@@ -19,39 +16,6 @@
     avatars.push('0' + (i + 1) + '.');
   }
 
-  /*
-  // Генерируем несколько объявлений
-  var generateAds = function () {
-    for (var j = 0; j < data.MAX_ADS; j++) {
-      var locationX = utils.getRandomNumber(data.PIN.min.x + data.PIN.width, data.PIN.max.x - data.PIN.width);
-      var locationY = utils.getRandomNumber(data.PIN.min.y - data.PIN.height, data.PIN.max.y - data.PIN.height);
-      var ad = {
-        author: {
-          avatar: data.USER_AVATAR.path + avatars[j] + data.USER_AVATAR.type
-        },
-        offer: {
-          title: data.HOUSE_TITLE[j],
-          address: (locationX + data.PIN.width / 2) + ', ' + (locationY + data.PIN.height),
-          price: utils.getRandomNumber(data.HOUSE_PRICE.min, data.HOUSE_PRICE.max),
-          type: utils.getRandomProperty(data.HOUSE_TYPE).name,
-          rooms: utils.getRandomNumber(data.HOUSE_ROOMS.min, data.HOUSE_ROOMS.max),
-          guests: utils.getRandomNumber(data.HOUSE_GUESTS.min, data.HOUSE_GUESTS.max),
-          checkin: utils.getRandomArrayElement(data.HOUSE_CHECK),
-          checkout: utils.getRandomArrayElement(data.HOUSE_CHECK),
-          features: utils.getRandomArrayLength(data.HOUSE_FEATURES),
-          description: utils.HOUSE_DESCRIPTION,
-          photos: utils.getShuffledArray(data.HOUSE_PHOTOS)
-        },
-        location: {
-          x: locationX,
-          y: locationY
-        }
-      };
-      ads.push(ad);
-    }
-    return ads;
-  };
-  */
   // Активируем страницу
   var activatePage = function () {
 
@@ -64,17 +28,37 @@
     }
 
     // Отрисовываем пины
-    if (data.ads.length === 0) {
-      window.load(function (ads) {
+    var successHandler = function (ads) {
+      if (data.ads.length === 0) {
         data.ads = ads;
-        for (var j = 0; j < ads.length; j++) {
+        for (var j = 0; j < data.MAX_ADS; j++) {
           var pinItem = pin.renderPin(ads[j]);
           pinItem.setAttribute('data-pin-number', j);
           fragment.appendChild(pinItem);
         }
+      }
+    };
+    var errorHandler = function (message) {
+      var main = document.querySelector('main');
+      var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+      var errorElement = errorTemplate.cloneNode(true);
+      var errorMessage = errorElement.querySelector('.error__message');
+      var errorButton = errorElement.querySelector('.error__button');
+      var errorClose = function () {
+        errorElement.remove();
+      };
+      errorButton.addEventListener('click', errorClose);
+      document.addEventListener('click', errorClose);
+      document.addEventListener('keydown', function (evt) {
+        if (evt.keyCode === data.KEYCODES.esc) {
+          errorClose();
+        }
       });
-    }
+      errorMessage.textContent = message;
+      main.insertAdjacentElement('afterbegin', errorElement);
+    };
     similarPinList.appendChild(fragment);
+    window.load(successHandler, errorHandler);
   };
 
   // Перемещение пина

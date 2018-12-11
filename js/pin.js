@@ -19,6 +19,7 @@
 
     // Отрисовываем объявление в соответствии с пином
     pinElement.addEventListener('click', function () {
+      pinElement.classList.add('map__pin--active');
       var popup = document.querySelector('.popup');
       if (popup) {
         popup.remove();

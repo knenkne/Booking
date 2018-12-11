@@ -121,10 +121,44 @@
   };
   resetButton.addEventListener('click', resetPage);
 
-  form.addEventListener('submit', function (evt) {
-    window.upload(new FormData(form), function () {
-      resetPage();
+  var successHandler = function () {
+    resetPage();
+    var main = document.querySelector('main');
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    var successClose = function () {
+      successElement.remove();
+    };
+    document.addEventListener('click', successClose);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === data.KEYCODES.esc) {
+        successClose();
+      }
     });
+    main.insertAdjacentElement('afterbegin', successElement);
+  };
+  var errorHandler = function (message) {
+    var main = document.querySelector('main');
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorMessage = errorElement.querySelector('.error__message');
+    var errorButton = errorElement.querySelector('.error__button');
+    var errorClose = function () {
+      errorElement.remove();
+    };
+    errorButton.addEventListener('click', errorClose);
+    document.addEventListener('click', errorClose);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === data.KEYCODES.esc) {
+        errorClose();
+      }
+    });
+    errorMessage.textContent = message;
+    main.insertAdjacentElement('afterbegin', errorElement);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    window.upload(new FormData(form), successHandler, errorHandler);
     evt.preventDefault();
   });
 })();

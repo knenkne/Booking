@@ -60,7 +60,7 @@
     path: 'img/avatars/user',
     type: 'png'
   };
-  var MAX_ADS = 8;
+  var MAX_ADS = 5;
   var KEYCODES = {
     esc: 27,
     enter: 13
