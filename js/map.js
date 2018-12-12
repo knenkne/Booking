@@ -4,6 +4,7 @@
 
   var data = window.data;
   var pin = window.pin;
+  var backend = window.backend;
   var fragment = document.createDocumentFragment();
   var similarPinList = document.querySelector('.map__pins');
   var form = document.querySelector('.ad-form');
@@ -30,34 +31,18 @@
     var successHandler = function (ads) {
       data.ads = ads;
       for (var j = 0; j < data.MAX_ADS; j++) {
-        var pinItem = pin.renderPin(ads[j]);
-        pinItem.setAttribute('data-pin-number', j);
-        fragment.appendChild(pinItem);
+        if (data.ads[j].offer) {
+          var pinItem = pin.renderPin(ads[j]);
+          pinItem.setAttribute('data-pin-number', j);
+          fragment.appendChild(pinItem);
+        }
       }
     };
-    var errorHandler = function (message) {
-      var main = document.querySelector('main');
-      var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-      var errorElement = errorTemplate.cloneNode(true);
-      var errorMessage = errorElement.querySelector('.error__message');
-      var errorButton = errorElement.querySelector('.error__button');
-      var errorClose = function () {
-        errorElement.remove();
-      };
-      errorButton.addEventListener('click', errorClose);
-      document.addEventListener('click', errorClose);
-      document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === data.KEYCODES.esc) {
-          errorClose();
-        }
-      });
-      errorMessage.textContent = message;
-      main.insertAdjacentElement('afterbegin', errorElement);
-    };
+
     similarPinList.appendChild(fragment);
-    if (data.loadingHandler === false) {
-      data.loadingHandler = true;
-      window.load(successHandler, errorHandler);
+    if (data.loadingFlag === false) {
+      data.loadingFlag = true;
+      backend.load(successHandler, backend.errorHandler);
     }
   };
 

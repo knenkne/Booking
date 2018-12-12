@@ -4,6 +4,7 @@
   var map = window.map;
   var data = window.data;
   var pin = window.pin;
+  var backend = window.backend;
   var form = document.querySelector('.ad-form');
   var typeList = form.querySelector('#type');
   var priceField = form.querySelector('#price');
@@ -91,7 +92,7 @@
   // Возвращаем неактивное состояние
   var resetPage = function () {
     form.reset();
-    data.loadingHandler = false;
+    data.loadingFlag = false;
     priceField.placeholder = '1000';
     priceField.setAttribute('min', '1000');
     pin.mapItem.classList.add('map--faded');
@@ -138,28 +139,9 @@
     });
     main.insertAdjacentElement('afterbegin', successElement);
   };
-  var errorHandler = function (message) {
-    var main = document.querySelector('main');
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var errorElement = errorTemplate.cloneNode(true);
-    var errorMessage = errorElement.querySelector('.error__message');
-    var errorButton = errorElement.querySelector('.error__button');
-    var errorClose = function () {
-      errorElement.remove();
-    };
-    errorButton.addEventListener('click', errorClose);
-    document.addEventListener('click', errorClose);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === data.KEYCODES.esc) {
-        errorClose();
-      }
-    });
-    errorMessage.textContent = message;
-    main.insertAdjacentElement('afterbegin', errorElement);
-  };
 
   form.addEventListener('submit', function (evt) {
-    window.upload(new FormData(form), successHandler, errorHandler);
+    backend.upload(new FormData(form), successHandler, backend.errorHandler);
     evt.preventDefault();
   });
 })();
