@@ -32,7 +32,7 @@
       data.ads = ads;
       for (var j = 0; j < data.MAX_ADS; j++) {
         if (data.ads[j].offer) {
-          var pinItem = pin.renderPin(ads[j]);
+          var pinItem = pin.renderPin(ads[j], ads);
           pinItem.setAttribute('data-pin-number', j);
           fragment.appendChild(pinItem);
         }
@@ -106,5 +106,7 @@
     mainPin: mainPin,
     address: address,
     fieldsets: fieldsets,
+    similarPinList: similarPinList,
+    fragment: fragment
   };
 })();

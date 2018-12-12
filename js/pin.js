@@ -9,7 +9,7 @@
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 
   // Генерируем метку
-  var renderPin = function (ad) {
+  var renderPin = function (ad, ads) {
     var pinElement = similarPinTemplate.cloneNode(true);
 
     pinElement.style.left = ad.location.x + 'px';
@@ -28,7 +28,7 @@
       if (popup) {
         popup.remove();
       }
-      var cardItem = card.renderCard(data.ads[pinElement.getAttribute('data-pin-number')]);
+      var cardItem = card.renderCard(ads[pinElement.getAttribute('data-pin-number')]);
       mapItem.insertBefore(cardItem, similarCardList);
     });
 
