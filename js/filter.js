@@ -42,15 +42,12 @@
     });
 
     // Фильтруем массив по комнатам
-    var getArrayByRooms = data.ads.filter(function (it) {
+    var getArrayByRooms = getArrayByType.filter(function (it) {
       return it.offer.rooms === parseInt(selectedRoomsIndex.value, 10);
     });
 
+    var fullFiltersArray = getArrayByRooms;
     // Объединям массивы
-    var fullFiltersArray = getArrayByType.concat(getArrayByRooms);
-    console.log(getArrayByType);
-    console.log(getArrayByRooms);
-    console.log(fullFiltersArray);
     // Отрисовываем пины в соответствии с фильтрами
     var ads = data.ads;
     /*

@@ -3,7 +3,6 @@
 (function () {
 
   var card = window.card;
-  var data = window.data;
   var mapItem = document.querySelector('.map');
   var similarCardList = document.querySelector('.map__filters-container');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
