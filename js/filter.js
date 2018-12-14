@@ -36,36 +36,22 @@
     var selectedTypeIndex = typeFilter.options[typeFilter.selectedIndex];
     var selectedRoomsIndex = roomsFilter.options[roomsFilter.selectedIndex];
 
-    // Фильтруем массив по типу
-    var getArrayByType = data.ads.filter(function (it) {
-      return it.offer.type === selectedTypeIndex.value;
-    });
-
-    // Фильтруем массив по комнатам
-    var getArrayByRooms = getArrayByType.filter(function (it) {
-      return it.offer.rooms === parseInt(selectedRoomsIndex.value, 10);
-    });
-
-    var fullFiltersArray = getArrayByRooms;
-    // Объединям массивы
-    // Отрисовываем пины в соответствии с фильтрами
-    var ads = data.ads;
-    /*
-    if (selectedTypeIndex.value === 'any') {
-      var ads = data.ads;
-      // Взять из map.js
-      for (var i = 0; i < data.MAX_ADS; i++) {
-        if (data.ads[i].offer) {
-          var pinItem = pin.renderPin(ads[i], ads);
-          pinItem.setAttribute('data-pin-number', i);
-          map.fragment.appendChild(pinItem);
-        }
+    var filter = function (el) {
+      var type = true;
+      var rooms = true;
+      if (selectedTypeIndex.value !== 'any') {
+        type = el.offer.type === selectedTypeIndex.value;
       }
-    } */
-    for (var j = 0; j < fullFiltersArray.length; j++) {
-      var pinItem = pin.renderPin(ads[j], ads);
-      pinItem = pin.renderPin(fullFiltersArray[j], fullFiltersArray);
-      pinItem.setAttribute('data-pin-number', j);
+      if (selectedRoomsIndex.value !== 'any') {
+        rooms = el.offer.rooms === parseInt(selectedRoomsIndex.value, 10);
+      }
+      return type && rooms;
+    };
+
+    var filteredArray = data.ads.filter(filter);
+    for (var i = 0; i < filteredArray.length; i++) {
+      var pinItem = pin.renderPin(filteredArray[i], filteredArray);
+      pinItem.setAttribute('data-pin-number', i);
       map.fragment.appendChild(pinItem);
     }
     map.similarPinList.appendChild(map.fragment);
