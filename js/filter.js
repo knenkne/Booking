@@ -9,6 +9,7 @@
   var typeFilter = filters.querySelector('#housing-type');
   var roomsFilter = filters.querySelector('#housing-rooms');
   var priceFilter = filters.querySelector('#housing-price');
+  var guestsFilter = filters.querySelector('#housing-guests');
   var featuresFilter = filters.querySelector('#housing-features');
   var featuresFilters = featuresFilter.querySelectorAll('input');
 
@@ -34,10 +35,12 @@
       var type = true;
       var rooms = true;
       var price = true;
+      var guests = true;
       var features = true;
       var selectedTypeIndex = typeFilter.options[typeFilter.selectedIndex];
       var selectedRoomsIndex = roomsFilter.options[roomsFilter.selectedIndex];
       var selectedPriceIndex = priceFilter.options[priceFilter.selectedIndex];
+      var selectedGuestsIndex = guestsFilter.options[guestsFilter.selectedIndex];
 
       if (selectedTypeIndex.value !== 'any') {
         type = el.offer.type === selectedTypeIndex.value;
@@ -58,6 +61,9 @@
             break;
         }
       }
+      if (selectedGuestsIndex.value !== 'any') {
+        guests = el.offer.guests === parseInt(selectedGuestsIndex.value, 10);
+      }
       /*
       featuresFilters.forEach(function (feature) {
         if (feature.checked) {
@@ -67,7 +73,7 @@
       });
       console.log(features);
       */
-      return type && rooms && price;
+      return type && rooms && price && guests;
     };
 
     var filteredArray = data.ads.filter(filter);
