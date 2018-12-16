@@ -3,9 +3,9 @@
 (function () {
 
   var data = window.data;
+  var card = window.card;
   var pin = window.pin;
   var map = window.map;
-  var form = window.form;
   var filters = document.querySelector('.map__filters');
   var typeFilter = filters.querySelector('#housing-type');
   var roomsFilter = filters.querySelector('#housing-rooms');
@@ -26,7 +26,7 @@
       pinElement.remove();
     });
 
-    form.removePopup();
+    card.removePopup();
 
     var filter = function (el) {
       var type = true;
@@ -63,13 +63,13 @@
         guests = el.offer.guests === parseInt(selectedGuestsIndex.value, 10);
       }
 
-      var success = true;
+      var successFlag = true;
       featuresFilters.forEach(function (feature) {
         if (el.offer.features.indexOf(feature.value) === -1) {
-          success = false;
+          successFlag = false;
         }
       });
-      features = success;
+      features = successFlag;
 
       return type && rooms && price && guests && features;
     };

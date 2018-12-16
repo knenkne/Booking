@@ -22,6 +22,18 @@
     return newFeature;
   };
 
+  // Скрываем карточку
+  var removePopup = function () {
+    var popup = document.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+    var activePinElements = document.querySelectorAll('.map__pin--active');
+    activePinElements.forEach(function (activatePinElement) {
+      activatePinElement.classList.remove('map__pin--active');
+    });
+  };
+
   // Генерируем карточку
   var renderCard = function (ad) {
     var cardElement = similarCardTemplate.cloneNode(true);
@@ -60,28 +72,27 @@
       features.remove();
     }
     // Закрываем объявление на крестик и ESC
-    var cardElementClose = function () {
-      cardElement.remove();
-    };
+
     var cardElementCloseHandler = cardElement.querySelector('.popup__close');
     cardElementCloseHandler.setAttribute('tabindex', 0);
     cardElementCloseHandler.addEventListener('click', function () {
-      cardElementClose();
+      removePopup();
     });
     cardElementCloseHandler.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.data.KEYCODES.enter) {
-        cardElementClose();
+        removePopup();
       }
     });
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.data.KEYCODES.esc) {
-        cardElementClose();
+        removePopup();
       }
     });
     return cardElement;
   };
 
   window.card = {
-    renderCard: renderCard
+    renderCard: renderCard,
+    removePopup: removePopup
   };
 })();

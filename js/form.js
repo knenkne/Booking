@@ -4,6 +4,7 @@
   var map = window.map;
   var data = window.data;
   var pin = window.pin;
+  var card = window.card;
   var backend = window.backend;
   var form = document.querySelector('.ad-form');
   var typeList = form.querySelector('#type');
@@ -90,13 +91,6 @@
     });
   });
 
-  var removePopup = function () {
-    var popup = document.querySelector('.popup');
-    if (popup) {
-      popup.remove();
-    }
-  };
-
   // Возвращаем неактивное состояние
   var resetPage = function () {
     form.reset();
@@ -107,7 +101,7 @@
     form.classList.add('ad-form--disabled');
     timeinList[0].setAttribute('selected', '');
     timeoutList[0].setAttribute('selected', '');
-    removePopup();
+    card.removePopup();
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (pinElement) {
       pinElement.remove();
@@ -149,9 +143,5 @@
     backend.upload(new FormData(form), successHandler, backend.errorHandler);
     evt.preventDefault();
   });
-
-  window.form = {
-    removePopup: removePopup
-  };
 
 })();
