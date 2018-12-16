@@ -5,6 +5,7 @@
   var data = window.data;
   var pin = window.pin;
   var map = window.map;
+  var form = window.form;
   var filters = document.querySelector('.map__filters');
   var typeFilter = filters.querySelector('#housing-type');
   var roomsFilter = filters.querySelector('#housing-rooms');
@@ -13,9 +14,9 @@
   var featuresFilterList = filters.querySelector('#housing-features');
 
   filters.addEventListener('change', function () {
-    /* window.setTimeout(function () { */
+    window.setTimeout(function () {
       updateCards();
-    /* }, 500); */
+    }, 500);
   });
 
   var updateCards = function () {
@@ -25,11 +26,7 @@
       pinElement.remove();
     });
 
-    // Удаляем попап, взять из form.js
-    var popup = document.querySelector('.popup');
-    if (popup) {
-      popup.remove();
-    }
+    form.removePopup();
 
     var filter = function (el) {
       var type = true;
@@ -66,18 +63,19 @@
         guests = el.offer.guests === parseInt(selectedGuestsIndex.value, 10);
       }
 
-      var success = false;
+      var success = true;
       featuresFilters.forEach(function (feature) {
-        if (el.offer.features.indexOf(feature.value) !== -1) {
-          success = true;
+        if (el.offer.features.indexOf(feature.value) === -1) {
+          success = false;
         }
       });
+      features = success;
 
       return type && rooms && price && guests && features;
     };
 
     var filteredArray = data.ads.filter(filter);
-    for (var i = 0; i < filteredArray.length; i++) {
+    for (var i = 0; i < filteredArray.length && i < data.MAX_ADS; i++) {
       var pinItem = pin.renderPin(filteredArray[i], filteredArray);
       pinItem.setAttribute('data-pin-number', i);
       map.fragment.appendChild(pinItem);

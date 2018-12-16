@@ -46,7 +46,7 @@
     }
   };
 
-  // Перемещение пинаа
+  // Перемещение пина
   var mainPin = document.querySelector('.map__pin--main');
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();

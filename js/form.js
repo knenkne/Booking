@@ -89,6 +89,14 @@
       }
     });
   });
+
+  var removePopup = function () {
+    var popup = document.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+  };
+
   // Возвращаем неактивное состояние
   var resetPage = function () {
     form.reset();
@@ -99,10 +107,7 @@
     form.classList.add('ad-form--disabled');
     timeinList[0].setAttribute('selected', '');
     timeoutList[0].setAttribute('selected', '');
-    var popup = document.querySelector('.popup');
-    if (popup) {
-      popup.remove();
-    }
+    removePopup();
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (pinElement) {
       pinElement.remove();
@@ -144,4 +149,9 @@
     backend.upload(new FormData(form), successHandler, backend.errorHandler);
     evt.preventDefault();
   });
+
+  window.form = {
+    removePopup: removePopup
+  };
+
 })();
