@@ -6,6 +6,8 @@
   var pin = window.pin;
   var card = window.card;
   var backend = window.backend;
+  var avatar = window.avatar;
+  var images = window.images;
   var form = document.querySelector('.ad-form');
   var typeList = form.querySelector('#type');
   var priceField = form.querySelector('#price');
@@ -119,6 +121,8 @@
     map.mainPin.style.top = data.MAIN_PIN.top + 'px';
     map.mainPin.style.left = data.MAIN_PIN.left + 'px';
     map.address.value = Math.round((parseInt(map.mainPin.style.left, 10) + data.MAIN_PIN.width / 2)) + ', ' + Math.round((parseInt(map.mainPin.style.top, 10) + data.MAIN_PIN.height / 2));
+    avatar.removeAvatar();
+    images.removeImages();
   };
   resetButton.addEventListener('click', resetPage);
 

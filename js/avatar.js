@@ -28,4 +28,16 @@
       reader.readAsDataURL(file);
     }
   });
+
+  var removeAvatar = function () {
+    preview.style.padding = '0 15px';
+    previewImage.height = '44';
+    previewImage.width = '40';
+    previewImage.src = 'img/muffin-grey.svg';
+  };
+
+  window.avatar = {
+    removeAvatar: removeAvatar
+  };
+
 })();
