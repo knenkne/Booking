@@ -6,6 +6,7 @@
   var card = window.card;
   var pin = window.pin;
   var map = window.map;
+  var debounce = window.debounce.debounce;
   var filters = document.querySelector('.map__filters');
   var typeFilter = filters.querySelector('#housing-type');
   var roomsFilter = filters.querySelector('#housing-rooms');
@@ -13,14 +14,8 @@
   var guestsFilter = filters.querySelector('#housing-guests');
   var featuresFilterList = filters.querySelector('#housing-features');
 
-  var lastTimeout;
   filters.addEventListener('change', function () {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(function () {
-      updateCards();
-    }, 500);
+    debounce(updateCards);
   });
 
   var updateCards = function () {
