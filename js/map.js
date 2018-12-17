@@ -10,11 +10,6 @@
   var form = document.querySelector('.ad-form');
   var fieldsets = document.querySelectorAll('[disabled]:not(option)');
   var address = form.querySelector('#address');
-  // Генерируем аватарки
-  var avatars = [];
-  for (var i = 0; i < data.MAX_ADS; i++) {
-    avatars.push('0' + (i + 1) + '.');
-  }
 
   // Активируем страницу
   var activatePage = function () {
@@ -37,9 +32,9 @@
           fragment.appendChild(pinItem);
         }
       }
+      similarPinList.appendChild(fragment);
     };
 
-    similarPinList.appendChild(fragment);
     if (data.loadingFlag === false) {
       data.loadingFlag = true;
       backend.load(successHandler, backend.errorHandler);
@@ -48,6 +43,11 @@
 
   // Перемещение пина
   var mainPin = document.querySelector('.map__pin--main');
+  mainPin.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === data.KEYCODES.enter) {
+      activatePage();
+    }
+  });
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
     var startCoords = {
@@ -101,6 +101,7 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
 
   window.map = {
     mainPin: mainPin,

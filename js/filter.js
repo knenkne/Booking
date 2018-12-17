@@ -13,8 +13,12 @@
   var guestsFilter = filters.querySelector('#housing-guests');
   var featuresFilterList = filters.querySelector('#housing-features');
 
+  var lastTimeout;
   filters.addEventListener('change', function () {
-    window.setTimeout(function () {
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
       updateCards();
     }, 500);
   });
@@ -29,11 +33,11 @@
     card.removePopup();
 
     var filter = function (el) {
-      var type = true;
-      var rooms = true;
-      var price = true;
-      var guests = true;
-      var features = true;
+      var istypeCorrect = true;
+      var isRoomsCorrect = true;
+      var isPriceCorrect = true;
+      var isGuestsCorrect = true;
+      var isFeaturesCorrect = true;
       var featuresFilters = featuresFilterList.querySelectorAll('input:checked');
       var selectedTypeIndex = typeFilter.options[typeFilter.selectedIndex];
       var selectedRoomsIndex = roomsFilter.options[roomsFilter.selectedIndex];
@@ -41,37 +45,35 @@
       var selectedGuestsIndex = guestsFilter.options[guestsFilter.selectedIndex];
 
       if (selectedTypeIndex.value !== 'any') {
-        type = el.offer.type === selectedTypeIndex.value;
+        istypeCorrect = el.offer.type === selectedTypeIndex.value;
       }
       if (selectedRoomsIndex.value !== 'any') {
-        rooms = el.offer.rooms === parseInt(selectedRoomsIndex.value, 10);
+        isRoomsCorrect = el.offer.rooms === parseInt(selectedRoomsIndex.value, 10);
       }
       if (selectedPriceIndex.value !== 'any') {
         switch (selectedPriceIndex.value) {
           case 'low':
-            price = el.offer.price < 10000;
+            isPriceCorrect = el.offer.price < 10000;
             break;
           case 'middle':
-            price = el.offer.price >= 10000 && el.offer.price < 50000;
+            isPriceCorrect = el.offer.price >= 10000 && el.offer.price < 50000;
             break;
           case 'high':
-            price = el.offer.price >= 50000;
+            isPriceCorrect = el.offer.price >= 50000;
             break;
         }
       }
       if (selectedGuestsIndex.value !== 'any') {
-        guests = el.offer.guests === parseInt(selectedGuestsIndex.value, 10);
+        isGuestsCorrect = el.offer.guests === parseInt(selectedGuestsIndex.value, 10);
       }
 
-      var successFlag = true;
       featuresFilters.forEach(function (feature) {
         if (el.offer.features.indexOf(feature.value) === -1) {
-          successFlag = false;
+          isFeaturesCorrect = false;
         }
       });
-      features = successFlag;
 
-      return type && rooms && price && guests && features;
+      return istypeCorrect && isRoomsCorrect && isPriceCorrect && isGuestsCorrect && isFeaturesCorrect;
     };
 
     var filteredArray = data.ads.filter(filter);
