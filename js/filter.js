@@ -48,13 +48,13 @@
       if (selectedPriceIndex.value !== 'any') {
         switch (selectedPriceIndex.value) {
           case 'low':
-            isPriceCorrect = el.offer.price < 10000;
+            isPriceCorrect = el.offer.price < data.HOUSE_PRICE.low;
             break;
           case 'middle':
-            isPriceCorrect = el.offer.price >= 10000 && el.offer.price < 50000;
+            isPriceCorrect = el.offer.price >= data.HOUSE_PRICE.low && el.offer.price < data.HOUSE_PRICE.high;
             break;
           case 'high':
-            isPriceCorrect = el.offer.price >= 50000;
+            isPriceCorrect = el.offer.price >= data.HOUSE_PRICE.high;
             break;
         }
       }

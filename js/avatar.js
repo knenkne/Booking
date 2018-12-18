@@ -29,7 +29,7 @@
     }
   });
 
-  var removeAvatar = function () {
+  var resetAvatar = function () {
     preview.style.padding = '0 15px';
     previewImage.height = '44';
     previewImage.width = '40';
@@ -37,7 +37,7 @@
   };
 
   window.avatar = {
-    removeAvatar: removeAvatar
+    resetAvatar: resetAvatar
   };
 
 })();

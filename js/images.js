@@ -39,7 +39,7 @@
     previewBlock.remove();
   });
 
-  var removeImages = function () {
+  var resetImages = function () {
     var images = photoContainer.querySelectorAll('.ad-form__photo');
     for (var i = 0; i < images.length; i++) {
       images[i].remove();
@@ -48,7 +48,7 @@
   };
 
   window.images = {
-    removeImages: removeImages
+    resetImages: resetImages
   };
 
 })();

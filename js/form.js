@@ -121,8 +121,8 @@
     map.mainPin.style.top = data.MAIN_PIN.top + 'px';
     map.mainPin.style.left = data.MAIN_PIN.left + 'px';
     map.address.value = Math.round((parseInt(map.mainPin.style.left, 10) + data.MAIN_PIN.width / 2)) + ', ' + Math.round((parseInt(map.mainPin.style.top, 10) + data.MAIN_PIN.height / 2));
-    avatar.removeAvatar();
-    images.removeImages();
+    avatar.resetAvatar();
+    images.resetImages();
   };
   resetButton.addEventListener('click', resetPage);
 

@@ -21,6 +21,11 @@
     }
   };
 
+  var HOUSE_PRICE = {
+    low: 10000,
+    high: 50000
+  };
+
   var PIN = {
     min: {
       x: 0,
@@ -53,6 +58,7 @@
   window.data = {
     MAX_ADS: MAX_ADS,
     MAIN_PIN: MAIN_PIN,
+    HOUSE_PRICE: HOUSE_PRICE,
     PIN: PIN,
     HOUSE_TYPE: HOUSE_TYPE,
     KEYCODES: KEYCODES,
