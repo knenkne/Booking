@@ -4,10 +4,10 @@
   var map = window.map;
   var data = window.data;
   var pin = window.pin;
-  var card = window.card;
+  var removePopup = window.card.removePopup;
   var backend = window.backend;
-  var avatar = window.avatar;
-  var images = window.images;
+  var resetAvatar = window.avatar.resetAvatar;
+  var resetImages = window.images.resetImages;
   var form = document.querySelector('.ad-form');
   var typeList = form.querySelector('#type');
   var priceField = form.querySelector('#price');
@@ -40,14 +40,14 @@
   typeList.addEventListener('change', onTypePriceChange);
 
   // Синхронизум время заезда и выезда
-  var syncTimeOut = function () {
+  var onTimeinTimeoutChange = function () {
     timeoutList.value = timeinList.value;
   };
-  var syncTimeIn = function () {
+  var onTimeoutTimeinChange = function () {
     timeinList.value = timeoutList.value;
   };
-  timeinList.addEventListener('change', syncTimeOut);
-  timeoutList.addEventListener('change', syncTimeIn);
+  timeinList.addEventListener('change', onTimeinTimeoutChange);
+  timeoutList.addEventListener('change', onTimeoutTimeinChange);
 
   // Синхронизируем ко-во комнат и гостей
   var setDisabled = function () {
@@ -94,7 +94,7 @@
   });
 
   // Возвращаем неактивное состояние
-  var resetPage = function () {
+  var onResetButtonResetPage = function () {
     form.reset();
     data.loadingFlag = false;
     priceField.placeholder = '1000';
@@ -103,7 +103,7 @@
     form.classList.add('ad-form--disabled');
     timeinList[0].setAttribute('selected', '');
     timeoutList[0].setAttribute('selected', '');
-    card.removePopup();
+    removePopup();
     var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (pinElement) {
       pinElement.remove();
@@ -121,13 +121,13 @@
     map.mainPin.style.top = data.MAIN_PIN.top + 'px';
     map.mainPin.style.left = data.MAIN_PIN.left + 'px';
     map.address.value = Math.round((parseInt(map.mainPin.style.left, 10) + data.MAIN_PIN.width / 2)) + ', ' + Math.round((parseInt(map.mainPin.style.top, 10) + data.MAIN_PIN.height / 2));
-    avatar.resetAvatar();
-    images.resetImages();
+    resetAvatar();
+    resetImages();
   };
-  resetButton.addEventListener('click', resetPage);
+  resetButton.addEventListener('click', onResetButtonResetPage);
 
-  var successHandler = function () {
-    resetPage();
+  var onLoadSuccess = function () {
+    onResetButtonResetPage();
     var main = document.querySelector('main');
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
@@ -136,7 +136,7 @@
     };
     document.addEventListener('click', successClose);
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === data.KEYCODES.esc) {
+      if (evt.keyCode === data.KEYCODES.ESC) {
         successClose();
       }
     });
@@ -144,7 +144,7 @@
   };
 
   form.addEventListener('submit', function (evt) {
-    backend.upload(new FormData(form), successHandler, backend.errorHandler);
+    backend.upload(new FormData(form), onLoadSuccess, backend.errorHandler);
     evt.preventDefault();
   });
 

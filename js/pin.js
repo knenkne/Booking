@@ -2,7 +2,8 @@
 
 (function () {
 
-  var card = window.card;
+  var removePopup = window.card.removePopup;
+  var renderCard = window.card.renderCard;
   var mapItem = document.querySelector('.map');
   var similarCardList = document.querySelector('.map__filters-container');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -18,9 +19,9 @@
 
     // Отрисовываем объявление в соответствии с пином
     pinElement.addEventListener('click', function () {
-      card.removePopup();
+      removePopup();
       pinElement.classList.add('map__pin--active');
-      var cardItem = card.renderCard(ads[pinElement.getAttribute('data-pin-number')]);
+      var cardItem = renderCard(ads[pinElement.getAttribute('data-pin-number')]);
       mapItem.insertBefore(cardItem, similarCardList);
     });
 

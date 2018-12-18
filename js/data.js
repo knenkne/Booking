@@ -3,19 +3,19 @@
 (function () {
 
   var HOUSE_TYPE = {
-    palace: {
+    PALACE: {
       name: 'Дворец',
       price: 10000
     },
-    flat: {
+    FLAT: {
       name: 'Квартира',
       price: 1000
     },
-    house: {
+    HOUSE: {
       name: 'Дом',
       price: 5000
     },
-    bungalo: {
+    BUNGALO: {
       name: 'Бунагло',
       price: 0
     }
@@ -48,10 +48,15 @@
 
   var MAX_ADS = 5;
   var KEYCODES = {
-    esc: 27,
-    enter: 13
+    ESC: 27,
+    ENTER: 13
   };
 
+  var ERRORCODES = {
+    OK: 200
+  };
+
+  var XHR_TIMEOUT = 10000;
   var ads = [];
   var loadingFlag = false;
 
@@ -62,6 +67,8 @@
     PIN: PIN,
     HOUSE_TYPE: HOUSE_TYPE,
     KEYCODES: KEYCODES,
+    ERRORCODES: ERRORCODES,
+    XHR_TIMEOUT: XHR_TIMEOUT,
     ads: ads,
     loadingFlag: loadingFlag
   };

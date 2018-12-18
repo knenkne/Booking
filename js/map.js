@@ -5,6 +5,7 @@
   var data = window.data;
   var pin = window.pin;
   var backend = window.backend;
+  var renderPin = pin.renderPin;
   var fragment = document.createDocumentFragment();
   var similarPinList = document.querySelector('.map__pins');
   var form = document.querySelector('.ad-form');
@@ -23,11 +24,11 @@
     });
 
     // Отрисовываем пины
-    var successHandler = function (ads) {
+    var onLoadSuccess = function (ads) {
       data.ads = ads;
       for (var j = 0; j < data.MAX_ADS; j++) {
         if (data.ads[j].offer) {
-          var pinItem = pin.renderPin(ads[j], ads);
+          var pinItem = renderPin(ads[j], ads);
           pinItem.setAttribute('data-pin-number', j);
           fragment.appendChild(pinItem);
         }
@@ -37,14 +38,14 @@
 
     if (data.loadingFlag === false) {
       data.loadingFlag = true;
-      backend.load(successHandler, backend.errorHandler);
+      backend.load(onLoadSuccess, backend.onLoadError);
     }
   };
 
   // Перемещение пина
   var mainPin = document.querySelector('.map__pin--main');
   mainPin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === data.KEYCODES.enter) {
+    if (evt.keyCode === data.KEYCODES.ENTER) {
       activatePage();
     }
   });

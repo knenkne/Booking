@@ -4,14 +4,16 @@
 
   var LOAD_URL = 'https://js.dump.academy/keksobooking/data';
   var UPLOAD_URL = 'https://js.dump.academy/keksobooking';
-  var data = window.data;
+  var ESC = window.data.KEYCODES.ESC;
+  var TIMEOUT = window.data.XHR_TIMEOUT;
+  var OK = window.data.ERRORCODES.OK;
 
-  var load = function (onLoad, onError) {
+  var sendXhr = function (onLoad, onError, method, url, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === OK) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -24,37 +26,20 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = 10000;
+    xhr.timeout = TIMEOUT;
 
-    xhr.open('GET', LOAD_URL);
-    xhr.send();
+    xhr.open(method, url);
+    xhr.send(data);
+  };
+  var load = function (onLoad, onError) {
+    sendXhr(onLoad, onError, 'GET', LOAD_URL, null);
   };
 
   var upload = function (formData, onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad(xhr.response);
-      } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
-      }
-    });
-    xhr.addEventListener('error', function () {
-      onError('Произошла ошибка соединения');
-    });
-    xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
-    });
-
-    xhr.timeout = 10000;
-
-    xhr.open('POST', UPLOAD_URL);
-    xhr.send(formData);
+    sendXhr(onLoad, onError, 'POST', UPLOAD_URL, formData);
   };
 
-  var errorHandler = function (message) {
+  var onLoadError = function (message) {
     var main = document.querySelector('main');
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
@@ -66,7 +51,7 @@
     errorButton.addEventListener('click', errorClose);
     document.addEventListener('click', errorClose);
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === data.KEYCODES.esc) {
+      if (evt.keyCode === ESC) {
         errorClose();
       }
     });
@@ -75,7 +60,7 @@
   };
 
   window.backend = {
-    errorHandler: errorHandler,
+    onLoadError: onLoadError,
     load: load,
     upload: upload
   };
