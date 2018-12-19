@@ -3,7 +3,7 @@
 (function () {
 
   var removePopup = window.card.removePopup;
-  var renderCard = window.card.renderCard;
+  var renderCard = window.card.render;
   var mapItem = document.querySelector('.map');
   var similarCardList = document.querySelector('.map__filters-container');
   var similarPinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
@@ -28,7 +28,7 @@
     return pinElement;
   };
   window.pin = {
-    renderPin: renderPin,
+    render: renderPin,
     mapItem: mapItem,
   };
 })();

@@ -2,7 +2,7 @@
 
 (function () {
 
-  var HOUSE_TYPE = {
+  var HouseType = {
     PALACE: {
       name: 'Дворец',
       price: 10000
@@ -47,12 +47,12 @@
   };
 
   var MAX_ADS = 5;
-  var KEYCODES = {
+  var Keycodes = {
     ESC: 27,
     ENTER: 13
   };
 
-  var ERRORCODES = {
+  var Errorcodes = {
     OK: 200
   };
 
@@ -65,9 +65,9 @@
     MAIN_PIN: MAIN_PIN,
     HOUSE_PRICE: HOUSE_PRICE,
     PIN: PIN,
-    HOUSE_TYPE: HOUSE_TYPE,
-    KEYCODES: KEYCODES,
-    ERRORCODES: ERRORCODES,
+    HouseType: HouseType,
+    Keycodes: Keycodes,
+    Errorcodes: Errorcodes,
     XHR_TIMEOUT: XHR_TIMEOUT,
     ads: ads,
     loadingFlag: loadingFlag

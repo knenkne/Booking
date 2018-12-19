@@ -5,7 +5,7 @@
   var data = window.data;
   var pin = window.pin;
   var backend = window.backend;
-  var renderPin = pin.renderPin;
+  var renderPin = pin.render;
   var fragment = document.createDocumentFragment();
   var similarPinList = document.querySelector('.map__pins');
   var form = document.querySelector('.ad-form');
@@ -45,7 +45,7 @@
   // Перемещение пина
   var mainPin = document.querySelector('.map__pin--main');
   mainPin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === data.KEYCODES.ENTER) {
+    if (evt.keyCode === data.Keycodes.ENTER) {
       activatePage();
     }
   });

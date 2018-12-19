@@ -48,7 +48,7 @@
   };
 
   window.images = {
-    resetImages: resetImages
+    reset: resetImages
   };
 
 })();

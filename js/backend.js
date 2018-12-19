@@ -4,9 +4,9 @@
 
   var LOAD_URL = 'https://js.dump.academy/keksobooking/data';
   var UPLOAD_URL = 'https://js.dump.academy/keksobooking';
-  var ESC = window.data.KEYCODES.ESC;
+  var ESC = window.data.Keycodes.ESC;
   var TIMEOUT = window.data.XHR_TIMEOUT;
-  var OK = window.data.ERRORCODES.OK;
+  var OK = window.data.Errorcodes.OK;
 
   var sendXhr = function (onLoad, onError, method, url, data) {
     var xhr = new XMLHttpRequest();
@@ -29,10 +29,14 @@
     xhr.timeout = TIMEOUT;
 
     xhr.open(method, url);
-    xhr.send(data);
+    if (data) {
+      xhr.send(data);
+    } else {
+      xhr.send();
+    }
   };
   var load = function (onLoad, onError) {
-    sendXhr(onLoad, onError, 'GET', LOAD_URL, null);
+    sendXhr(onLoad, onError, 'GET', LOAD_URL);
   };
 
   var upload = function (formData, onLoad, onError) {

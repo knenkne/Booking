@@ -37,7 +37,7 @@
   };
 
   window.avatar = {
-    resetAvatar: resetAvatar
+    reset: resetAvatar
   };
 
 })();

@@ -73,7 +73,7 @@
 
     var filteredArray = data.ads.filter(filter);
     for (var i = 0; i < filteredArray.length && i < data.MAX_ADS; i++) {
-      var pinItem = pin.renderPin(filteredArray[i], filteredArray);
+      var pinItem = pin.render(filteredArray[i], filteredArray);
       pinItem.setAttribute('data-pin-number', i);
       map.fragment.appendChild(pinItem);
     }

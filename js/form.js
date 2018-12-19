@@ -6,8 +6,8 @@
   var pin = window.pin;
   var removePopup = window.card.removePopup;
   var backend = window.backend;
-  var resetAvatar = window.avatar.resetAvatar;
-  var resetImages = window.images.resetImages;
+  var resetAvatar = window.avatar.reset;
+  var resetImages = window.images.reset;
   var form = document.querySelector('.ad-form');
   var typeList = form.querySelector('#type');
   var priceField = form.querySelector('#price');
@@ -136,7 +136,7 @@
     };
     document.addEventListener('click', successClose);
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === data.KEYCODES.ESC) {
+      if (evt.keyCode === data.Keycodes.ESC) {
         successClose();
       }
     });
@@ -144,7 +144,7 @@
   };
 
   form.addEventListener('submit', function (evt) {
-    backend.upload(new FormData(form), onLoadSuccess, backend.errorHandler);
+    backend.upload(new FormData(form), onLoadSuccess, backend.onLoadError);
     evt.preventDefault();
   });
 
