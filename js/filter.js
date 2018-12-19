@@ -6,7 +6,7 @@
   var card = window.card;
   var pin = window.pin;
   var map = window.map;
-  var debounce = window.debounce.debounce;
+  var debounce = window.debounce;
   var filters = document.querySelector('.map__filters');
   var typeFilter = filters.querySelector('#housing-type');
   var roomsFilter = filters.querySelector('#housing-rooms');
