@@ -136,7 +136,7 @@
     };
     document.addEventListener('click', successClose);
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === data.Keycodes.ESC) {
+      if (evt.keyCode === data.KeyCodes.ESC) {
         successClose();
       }
     });

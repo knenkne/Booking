@@ -4,9 +4,9 @@
 
   var LOAD_URL = 'https://js.dump.academy/keksobooking/data';
   var UPLOAD_URL = 'https://js.dump.academy/keksobooking';
-  var ESC = window.data.Keycodes.ESC;
+  var ESC = window.data.KeyCodes.ESC;
   var TIMEOUT = window.data.XHR_TIMEOUT;
-  var OK = window.data.Errorcodes.OK;
+  var OK = window.data.StatusCodes.OK;
 
   var sendXhr = function (onLoad, onError, method, url, data) {
     var xhr = new XMLHttpRequest();

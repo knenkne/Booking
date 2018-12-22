@@ -45,7 +45,7 @@
   // Перемещение пина
   var mainPin = document.querySelector('.map__pin--main');
   mainPin.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === data.Keycodes.ENTER) {
+    if (evt.keyCode === data.KeyCodes.ENTER) {
       activatePage();
     }
   });

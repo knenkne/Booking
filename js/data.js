@@ -47,12 +47,12 @@
   };
 
   var MAX_ADS = 5;
-  var Keycodes = {
+  var KeyCodes = {
     ESC: 27,
     ENTER: 13
   };
 
-  var Errorcodes = {
+  var StatusCodes = {
     OK: 200
   };
 
@@ -66,8 +66,8 @@
     HOUSE_PRICE: HOUSE_PRICE,
     PIN: PIN,
     HouseType: HouseType,
-    Keycodes: Keycodes,
-    Errorcodes: Errorcodes,
+    KeyCodes: KeyCodes,
+    StatusCodes: StatusCodes,
     XHR_TIMEOUT: XHR_TIMEOUT,
     ads: ads,
     loadingFlag: loadingFlag

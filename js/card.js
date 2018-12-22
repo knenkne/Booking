@@ -86,12 +86,12 @@
       removePopup();
     });
     cardElementCloseHandler.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.data.Keycodes.ENTER) {
+      if (evt.keyCode === window.data.KeyCodes.ENTER) {
         removePopup();
       }
     });
     document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.data.Keycodes.ESC) {
+      if (evt.keyCode === window.data.KeyCodes.ESC) {
         removePopup();
       }
     });
