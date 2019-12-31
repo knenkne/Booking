@@ -1,5 +1,8 @@
 'use strict';
 
+var map = document.querySelector('.map');
+var pinsContainer = map.querySelector('.map__pins');
+
 var OFFERS_AMOUNT = 8;
 
 var titles = ['Hello', 'Oh, Here We go Again', 'Amazing Apps'];
@@ -15,6 +18,17 @@ var price = {
   'max': 1000
 };
 
+var coords = {
+  x: {
+    'min': 0,
+    'max': map.offsetWidth
+  },
+  y: {
+    'min': 130,
+    'max': 630
+  }
+};
+
 
 var typesMap = {
   'palace': 'Дворец',
@@ -22,7 +36,6 @@ var typesMap = {
   'house': 'Дом',
   'bungalo': 'Бунгало'
 };
-
 
 function getRandomItem(array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -46,13 +59,13 @@ function createOffer(id) {
       'guests': getRandomNumber(0, 10),
       'checkin': getRandomItem(checks),
       'checkout': getRandomItem(checks),
-      'features': ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
+      'features': features,
       'description': getRandomItem(descriptions),
-      'photos': ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg']
+      'photos': photos
     },
     'location': {
-      'x': getRandomNumber(0, 500),
-      'y': getRandomNumber(0, 500)
+      'x': getRandomNumber(coords.x.min, coords.x.max),
+      'y': getRandomNumber(coords.y.min, coords.y.max)
     }
   };
 }
@@ -67,12 +80,28 @@ function createOffers(amount) {
   return offers;
 }
 
+function renderPin(offer) {
+  var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var pinElement = pinTemplate.cloneNode(true);
+
+  pinElement.style.left = offer.location.x + 'px';
+  pinElement.style.top = offer.location.y + 'px';
+
+  pinElement.querySelector('img').setAttribute('src', offer.author.avatar);
+  pinElement.querySelector('img').setAttribute('alt', offer.offer.title);
+
+  pinsContainer.appendChild(pinElement);
+}
+
+function renderPins(offers) {
+  offers.forEach(renderPin);
+}
 
 // Removing disabled state
 document.querySelector('.map').classList.remove('map--faded');
 
-// Crearing offers
+// Creating offers
 var offers = createOffers(OFFERS_AMOUNT);
-console.log(offers);
+renderPins(offers);
 
 
