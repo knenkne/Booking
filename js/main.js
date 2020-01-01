@@ -3,7 +3,7 @@
 var map = document.querySelector('.map');
 var pinsContainer = map.querySelector('.map__pins');
 
-var OFFERS_AMOUNT = 8;
+var MAX_OFFERS = 8;
 
 var titles = ['Hello', 'Oh, Here We go Again', 'Amazing Apps'];
 var types = ['palace', 'flat', 'house', 'bungalo'];
@@ -80,7 +80,8 @@ function createOffers(amount) {
   return offers;
 }
 
-function renderPin(offer) {
+// Creating single pin element
+function createPin(offer) {
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
   var pinElement = pinTemplate.cloneNode(true);
 
@@ -90,18 +91,26 @@ function renderPin(offer) {
   pinElement.querySelector('img').setAttribute('src', offer.author.avatar);
   pinElement.querySelector('img').setAttribute('alt', offer.offer.title);
 
-  pinsContainer.appendChild(pinElement);
+  return pinElement;
 }
 
-function renderPins(offers) {
-  offers.forEach(renderPin);
+// Rendering all pins by offers data
+function renderPins(offers, container) {
+  var fragment = document.createDocumentFragment();
+
+  // Creating single pin by offer data and appending it to fragment
+  offers.forEach(function (offer) {
+    var pin = createPin(offer);
+    fragment.appendChild(pin);
+  });
+
+  // Appending fragment with all the pins to container
+  container.appendChild(fragment);
 }
 
 // Removing disabled state
 document.querySelector('.map').classList.remove('map--faded');
 
 // Creating offers
-var offers = createOffers(OFFERS_AMOUNT);
-renderPins(offers);
-
-
+var offers = createOffers(MAX_OFFERS);
+renderPins(offers, pinsContainer);
