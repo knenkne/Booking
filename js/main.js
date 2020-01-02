@@ -2,6 +2,7 @@
 
 var map = document.querySelector('.map');
 var pinsContainer = map.querySelector('.map__pins');
+var filtersContainer = map.querySelector('.map__filters-container');
 
 var MAX_OFFERS = 8;
 
@@ -54,7 +55,7 @@ function createOffer(id) {
       'title': getRandomItem(titles),
       'address': getRandomNumber(0, 500) + ', ' + getRandomNumber(0, 500),
       'price': getRandomNumber(price.min, price.max),
-      'type': typesMap[getRandomItem(types)],
+      'type': getRandomItem(types),
       'rooms': getRandomNumber(0, 10),
       'guests': getRandomNumber(0, 10),
       'checkin': getRandomItem(checks),
@@ -79,6 +80,11 @@ function createOffers(amount) {
 
   return offers;
 }
+
+
+//
+//    PINS   //
+//
 
 // Creating single pin element
 function createPin(offer) {
@@ -108,9 +114,35 @@ function renderPins(offers, container) {
   container.appendChild(fragment);
 }
 
+
+//
+//    CARDS   //
+//
+
+function createCard(offer) {
+  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var cardElement = cardTemplate.cloneNode(true);
+
+  cardElement.querySelector('.popup__avatar').setAttribute('src', offer.author.avatar);
+  cardElement.querySelector('.popup__title').textContent = offer.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = offer.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = offer.offer.price + ' ₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = typesMap[offer.offer.type];
+  cardElement.querySelector('.popup__text--capacity').textContent = offer.offer.rooms + ' комнаты для ' + offer.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ' , выезд до ' + offer.offer.checkout;
+  cardElement.querySelector('.popup__description').textContent = offer.offer.description;
+
+
+  return cardElement;
+}
+
 // Removing disabled state
-document.querySelector('.map').classList.remove('map--faded');
+map.classList.remove('map--faded');
 
 // Creating offers
 var offers = createOffers(MAX_OFFERS);
+var cardElement = createCard(offers[0]);
+
+// Rendering pins and first card by offers
 renderPins(offers, pinsContainer);
+map.insertBefore(cardElement, filtersContainer);
