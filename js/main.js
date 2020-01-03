@@ -119,9 +119,21 @@ function renderPins(offers, container) {
 //    CARDS   //
 //
 
+function createPhoto(src) {
+  var photoElement = document.createElement('img');
+  photoElement.setAttribute('src', src);
+  photoElement.setAttribute('alt', 'Фотография жилья');
+  photoElement.setAttribute('width', 45);
+  photoElement.setAttribute('height', 40);
+  photoElement.classList.add('popup__photo');
+
+  return photoElement;
+}
+
 function createCard(offer) {
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var cardElement = cardTemplate.cloneNode(true);
+  var photosConteiner = cardElement.querySelector('.popup__photos');
 
   cardElement.querySelector('.popup__avatar').setAttribute('src', offer.author.avatar);
   cardElement.querySelector('.popup__title').textContent = offer.offer.title;
@@ -132,6 +144,12 @@ function createCard(offer) {
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.offer.checkin + ' , выезд до ' + offer.offer.checkout;
   cardElement.querySelector('.popup__description').textContent = offer.offer.description;
 
+  // Appending photos
+  photosConteiner.innerHTML = '';
+  offer.offer.photos.forEach(function (src) {
+    var photoElement = createPhoto(src);
+    photosConteiner.appendChild(photoElement);
+  });
 
   return cardElement;
 }
