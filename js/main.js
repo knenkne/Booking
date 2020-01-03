@@ -97,6 +97,10 @@ function createPin(offer) {
   pinElement.querySelector('img').setAttribute('src', offer.author.avatar);
   pinElement.querySelector('img').setAttribute('alt', offer.offer.title);
 
+  pinElement.addEventListener('click', function () {
+    onPinClick(offer);
+  });
+
   return pinElement;
 }
 
@@ -112,6 +116,19 @@ function renderPins(offers, container) {
 
   // Appending fragment with all the pins to container
   container.appendChild(fragment);
+}
+
+function onPinClick(offer) {
+  // Deleting previous card
+  var cardElement = map.querySelector('.map__card');
+
+  if (cardElement) {
+    cardElement.remove();
+  }
+
+  // Creating new card
+  cardElement = createCard(offer);
+  map.insertBefore(cardElement, filtersContainer);
 }
 
 
@@ -166,6 +183,11 @@ function createCard(offer) {
     featuresContainer.appendChild(featureElement);
   });
 
+  cardElement.addEventListener('click', function () {
+    cardElement.remove();
+  });
+
+
   return cardElement;
 }
 
@@ -174,8 +196,6 @@ map.classList.remove('map--faded');
 
 // Creating offers
 var offers = createOffers(MAX_OFFERS);
-var cardElement = createCard(offers[0]);
 
 // Rendering pins and first card by offers
 renderPins(offers, pinsContainer);
-map.insertBefore(cardElement, filtersContainer);
