@@ -1,10 +1,11 @@
 'use strict';
 
+var MAX_OFFERS = 8;
+
 var map = document.querySelector('.map');
+var mainPin = map.querySelector('.map__pin--main');
 var pinsContainer = map.querySelector('.map__pins');
 var filtersContainer = map.querySelector('.map__filters-container');
-
-var MAX_OFFERS = 8;
 
 var titles = ['Hello', 'Oh, Here We go Again', 'Amazing Apps'];
 var types = ['palace', 'flat', 'house', 'bungalo'];
@@ -79,6 +80,24 @@ function createOffers(amount) {
   }
 
   return offers;
+}
+
+//
+// MAIN PIN //
+//
+
+// Activating page
+function onMainPinClick() {
+  // Removing disabled state
+  map.classList.remove('map--faded');
+
+  // Creating offers
+  var offers = createOffers(MAX_OFFERS);
+
+  // Rendering pins
+  renderPins(offers, pinsContainer);
+
+  mainPin.removeEventListener('mousedown', onMainPinClick);
 }
 
 
@@ -191,11 +210,4 @@ function createCard(offer) {
   return cardElement;
 }
 
-// Removing disabled state
-map.classList.remove('map--faded');
-
-// Creating offers
-var offers = createOffers(MAX_OFFERS);
-
-// Rendering pins and first card by offers
-renderPins(offers, pinsContainer);
+mainPin.addEventListener('mousedown', onMainPinClick);
