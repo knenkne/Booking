@@ -206,6 +206,12 @@ function createCard(offer) {
     cardElement.remove();
   });
 
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      cardElement.remove();
+    }
+  });
+
 
   return cardElement;
 }
