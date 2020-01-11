@@ -2,6 +2,7 @@
 
 var getOffers = window.data.get;
 var renderPins = window.pin.render;
+var enableForm = window.form.enable;
 
 var MAX_OFFERS = 5;
 var DATA_URL = 'https://js.dump.academy/keksobooking/data';
@@ -40,7 +41,8 @@ function onMainPinClick() {
   // Creating offers
   getOffers(DATA_URL, onSuccess, onError);
 
-  // Rendering pins
+  // Enabling form
+  enableForm();
 
   mainPin.removeEventListener('mousedown', onMainPinClick);
 }
