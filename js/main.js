@@ -2,7 +2,9 @@
 
 var getOffers = window.data.get;
 var renderPins = window.pin.render;
-var enableForm = window.form.enable;
+var form = window.adForm.element;
+var toggleForm = window.adForm.toggle;
+var removeCard = window.card.remove;
 var onMouseDownDragPin = window.drag;
 
 var MAX_OFFERS = 5;
@@ -46,10 +48,31 @@ function onMouseDownActivatePage() {
   getOffers(DATA_URL, onSuccess, onError);
 
   // Enabling form
-  enableForm();
+  toggleForm();
 
   mainPin.removeEventListener('mousedown', onMouseDownActivatePage);
 }
 
+// Deactivating page
+function onFormResetDeactivatePage() {
+  var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+  // Removing pins
+  pins.forEach(function (pin) {
+    pin.remove();
+  });
+
+  // Setting default position for mainPin
+  mainPin.style.left = '570px';
+  mainPin.style.top = '375px';
+  map.classList.add('map--faded');
+
+  // Removing opened card
+  removeCard();
+
+  mainPin.addEventListener('mousedown', onMouseDownActivatePage);
+}
+
 mainPin.addEventListener('mousedown', onMouseDownActivatePage);
 mainPin.addEventListener('mousedown', onMouseDownDragPin);
+form.addEventListener('reset', onFormResetDeactivatePage);

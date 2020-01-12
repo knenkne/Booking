@@ -9,6 +9,7 @@
   };
 
   var form = document.querySelector('.ad-form');
+  var fields = form.querySelectorAll('fieldset');
   var typeSelect = form.querySelector('#type');
   var roomsSelect = form.querySelector('#room_number');
   var capacitySelect = form.querySelector('#capacity');
@@ -16,12 +17,10 @@
   var checkoutSelect = form.querySelector('#timeout');
   var priceField = form.querySelector('#price');
 
-  function enableForm() {
-    var fields = form.querySelectorAll('fieldset');
-
-    form.classList.remove('ad-form--disabled');
+  function toggleForm() {
+    form.classList.toggle('ad-form--disabled');
     fields.forEach(function (field) {
-      field.disabled = false;
+      field.disabled = !field.disabled;
     });
   }
 
@@ -58,6 +57,17 @@
     }
   }
 
+  function onFormReset() {
+    var defaultType = typeSelect.querySelector('option[selected]').value;
+
+    // Change type & price UI additionaly to default reset
+    priceField.placeholder = typesPriceMap[defaultType];
+    priceField.min = typesPriceMap[defaultType];
+
+    // Disabling form
+    toggleForm();
+  }
+
   function onFormSubmit(e) {
     // e.preventDefault();
   }
@@ -66,10 +76,13 @@
   typeSelect.addEventListener('change', onTypeChange);
   checkinSelect.addEventListener('change', onCheckChange);
   checkoutSelect.addEventListener('change', onCheckChange);
+
+  form.addEventListener('reset', onFormReset);
   form.addEventListener('submit', onFormSubmit);
 
-  window.form = {
-    enable: enableForm
+  window.adForm = {
+    toggle: toggleForm,
+    element: form
   };
 
 }());

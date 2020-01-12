@@ -2,6 +2,7 @@
 
 (function () {
   var createCard = window.card.create;
+  var removeCard = window.card.remove;
 
   var map = document.querySelector('.map');
   var filtersContainer = map.querySelector('.map__filters-container');
@@ -46,19 +47,16 @@
   function onPinClick(e, offer) {
     var pinElement = e.currentTarget;
     var pinElements = map.querySelectorAll('.map__pin');
-    var cardElement = map.querySelector('.map__card');
+    var cardElement = createCard(offer);
 
     // Toggle active state
     pinElements.forEach(removePinActiveState);
     pinElement.classList.add('map__pin--active');
 
     // Deleting previous card
-    if (cardElement) {
-      cardElement.remove();
-    }
+    removeCard();
 
     // Creating new card
-    cardElement = createCard(offer);
     map.insertBefore(cardElement, filtersContainer);
   }
 

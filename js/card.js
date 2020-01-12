@@ -80,8 +80,17 @@
     return cardElement;
   }
 
+  function removeCard() {
+    var cardElement = document.querySelector('.map__card');
+
+    if (cardElement) {
+      cardElement.remove();
+    }
+  }
+
   window.card = {
-    create: createCard
+    create: createCard,
+    remove: removeCard
   };
 
 }());
