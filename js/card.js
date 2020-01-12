@@ -26,6 +26,23 @@
     return featureElement;
   }
 
+  function onCloseButtonClick() {
+    // Removing pin active state for current offer
+    var cardElement = document.querySelector('.map__card');
+    var pinElement = document.querySelector('.map__pin--active');
+
+    pinElement.classList.remove('map__pin--active');
+
+    cardElement.remove();
+    document.removeEventListener('keydown', onEscButtonPress);
+  }
+
+  function onEscButtonPress(e) {
+    if (e.key === 'Escape') {
+      onCloseButtonClick();
+    }
+  }
+
   function createCard(offer) {
     var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
     var cardElement = cardTemplate.cloneNode(true);
@@ -55,15 +72,9 @@
       featuresContainer.appendChild(featureElement);
     });
 
-    cardElement.addEventListener('click', function () {
-      cardElement.remove();
-    });
+    cardElement.addEventListener('click', onCloseButtonClick);
 
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        cardElement.remove();
-      }
-    });
+    document.addEventListener('keydown', onEscButtonPress);
 
 
     return cardElement;

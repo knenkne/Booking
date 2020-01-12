@@ -13,7 +13,7 @@ var map = mainContainer.querySelector('.map');
 var mainPin = map.querySelector('.map__pin--main');
 var pinsContainer = map.querySelector('.map__pins');
 
-var offers = [];
+window.offers = [];
 
 //
 // MAIN PIN //
@@ -33,8 +33,8 @@ var onError = function (message) {
 };
 
 var onSuccess = function (data) {
-  offers = data;
-  renderPins(offers.slice(0, MAX_OFFERS), pinsContainer);
+  window.offers = data;
+  renderPins(window.offers.slice(0, MAX_OFFERS), pinsContainer);
 };
 
 // Activating page
