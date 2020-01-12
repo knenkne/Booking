@@ -40,6 +40,15 @@
     container.appendChild(fragment);
   }
 
+  function removePins() {
+    var pins = map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    // Removing pins
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
+  }
+
   function removePinActiveState(pinElement) {
     pinElement.classList.remove('map__pin--active');
   }
@@ -61,7 +70,8 @@
   }
 
   window.pin = {
-    render: renderPins
+    render: renderPins,
+    remove: removePins
   };
 
 }());
