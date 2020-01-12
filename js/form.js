@@ -12,6 +12,8 @@
   var typeSelect = form.querySelector('#type');
   var roomsSelect = form.querySelector('#room_number');
   var capacitySelect = form.querySelector('#capacity');
+  var checkinSelect = form.querySelector('#timein');
+  var checkoutSelect = form.querySelector('#timeout');
   var priceField = form.querySelector('#price');
 
   function enableForm() {
@@ -46,12 +48,24 @@
     }
   }
 
+  function onCheckChange(e) {
+    var selectedIndex = e.target.selectedIndex;
+
+    if (e.target === checkinSelect) {
+      checkoutSelect.options[selectedIndex].selected = true;
+    } else {
+      checkinSelect.options[selectedIndex].selected = true;
+    }
+  }
+
   function onFormSubmit(e) {
-    e.preventDefault();
+    // e.preventDefault();
   }
 
   roomsSelect.addEventListener('change', onRoomsChange);
   typeSelect.addEventListener('change', onTypeChange);
+  checkinSelect.addEventListener('change', onCheckChange);
+  checkoutSelect.addEventListener('change', onCheckChange);
   form.addEventListener('submit', onFormSubmit);
 
   window.form = {
