@@ -22,7 +22,7 @@
     addressField.value = leftOffset + ', ' + topOffest;
   }
 
-  mainPin.addEventListener('mousedown', function (evt) {
+  function onMouseDownDragPin(evt) {
     evt.preventDefault();
     setAddress();
 
@@ -73,6 +73,8 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  });
+  }
+
+  window.drag = onMouseDownDragPin;
 
 }());
