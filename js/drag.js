@@ -22,27 +22,27 @@
     addressField.value = leftOffset + ', ' + topOffest;
   }
 
-  function onMouseDownDragPin(evt) {
-    evt.preventDefault();
+  function onMouseDownDragPin(e) {
+    e.preventDefault();
     setAddress();
 
     var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
+      x: e.clientX,
+      y: e.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
+    var onMouseMove = function (moveE) {
+      moveE.preventDefault();
       setAddress();
 
       var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+        x: startCoords.x - moveE.clientX,
+        y: startCoords.y - moveE.clientY
       };
 
       startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+        x: moveE.clientX,
+        y: moveE.clientY
       };
 
       mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
@@ -63,8 +63,8 @@
       }
     };
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
+    var onMouseUp = function (upE) {
+      upE.preventDefault();
       setAddress();
 
       document.removeEventListener('mousemove', onMouseMove);
