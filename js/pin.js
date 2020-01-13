@@ -5,9 +5,10 @@
   var removeCard = window.card.remove;
 
   var map = document.querySelector('.map');
+  var pinsContainer = map.querySelector('.map__pins');
   var filtersContainer = map.querySelector('.map__filters-container');
 
-  function createPin(offer, index) {
+  function createPin(offer) {
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
     var pinElement = pinTemplate.cloneNode(true);
 
@@ -17,8 +18,6 @@
     pinElement.querySelector('img').setAttribute('src', offer.author.avatar);
     pinElement.querySelector('img').setAttribute('alt', offer.offer.title);
 
-    pinElement.setAttribute('data-index', index);
-
     pinElement.addEventListener('click', function (e) {
       onPinClick(e, offer);
     });
@@ -27,17 +26,17 @@
   }
 
   // Rendering all pins by offers data
-  function renderPins(offers, container) {
+  function renderPins(offers) {
     var fragment = document.createDocumentFragment();
 
     // Creating single pin by offer data and appending it to fragment
-    offers.forEach(function (offer, index) {
-      var pinElement = createPin(offer, index);
+    offers.forEach(function (offer) {
+      var pinElement = createPin(offer);
       fragment.appendChild(pinElement);
     });
 
     // Appending fragment with all the pins to container
-    container.appendChild(fragment);
+    pinsContainer.appendChild(fragment);
   }
 
   function removePins() {

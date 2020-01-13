@@ -5,6 +5,7 @@ var renderPins = window.pin.render;
 var removePins = window.pin.remove;
 var form = window.adForm.element;
 var toggleForm = window.adForm.toggle;
+var toggleFilters = window.filters.toggle;
 var removeCard = window.card.remove;
 var onMouseDownDragPin = window.drag;
 
@@ -14,7 +15,6 @@ var DATA_URL = 'https://js.dump.academy/keksobooking/data';
 var mainContainer = document.querySelector('main');
 var map = mainContainer.querySelector('.map');
 var mainPin = map.querySelector('.map__pin--main');
-var pinsContainer = map.querySelector('.map__pins');
 
 window.offers = [];
 
@@ -33,10 +33,11 @@ var onError = function (message) {
 
 var onSuccess = function (data) {
   window.offers = data;
-  renderPins(window.offers.slice(0, MAX_OFFERS), pinsContainer);
+  renderPins(window.offers.slice(0, MAX_OFFERS));
 
-  // Enabling form
+  // Enabling form & filters
   toggleForm();
+  toggleFilters();
 };
 
 // Activating page
@@ -64,9 +65,10 @@ function onFormResetDeactivatePage() {
   mainPin.style.top = '375px';
   map.classList.add('map--faded');
 
-  // Removing opened card & pins
+  // Removing opened card & pins & disabling filters
   removePins();
   removeCard();
+  toggleFilters();
 
   mainPin.addEventListener('mousedown', onMouseDownActivatePage);
 }
