@@ -75,6 +75,9 @@
     document.addEventListener('mouseup', onMouseUp);
   }
 
-  window.drag = onMouseDownDragPin;
+  window.drag = {
+    event: onMouseDownDragPin,
+    setAddress: setAddress
+  };
 
 }());

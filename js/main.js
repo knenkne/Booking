@@ -7,7 +7,8 @@ var form = window.adForm.element;
 var toggleForm = window.adForm.toggle;
 var toggleFilters = window.filters.toggle;
 var removeCard = window.card.remove;
-var onMouseDownDragPin = window.drag;
+var onMouseDownDragPin = window.drag.event;
+var setAddress = window.drag.setAddress;
 
 var MAX_OFFERS = 5;
 var DATA_URL = 'https://js.dump.academy/keksobooking/data';
@@ -70,9 +71,16 @@ function onFormResetDeactivatePage() {
   removeCard();
   toggleFilters();
 
+  setTimeout(function () {
+    setAddress();
+  });
+
+  window.offers = [];
+
   mainPin.addEventListener('mousedown', onMouseDownActivatePage);
 }
 
+setAddress();
 mainPin.addEventListener('keydown', onKeyPressActivatePage);
 mainPin.addEventListener('mousedown', onMouseDownActivatePage);
 mainPin.addEventListener('mousedown', onMouseDownDragPin);

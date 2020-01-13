@@ -57,14 +57,14 @@
     }
   }
 
-  function onFormReset() {
+  function onFormReset(e) {
     var defaultType = typeSelect.querySelector('option[selected]').value;
 
     // Change type & price UI additionaly to default reset
     priceField.placeholder = typesPriceMap[defaultType];
     priceField.min = typesPriceMap[defaultType];
 
-    // Disabling form
+    // Toggling form
     toggleForm();
   }
 

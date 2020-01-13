@@ -19,13 +19,9 @@
   var featuresList = filters.querySelector('#housing-features');
 
   function toggleFilters() {
+    filters.reset();
     filters.childNodes.forEach(function (field) {
-      field.selectedIndex = 0;
-      field.disabled = !field.disabled; 
-    });
-
-    featuresList.childNodes.forEach(function (feature) {
-      feature.checked = false;
+      field.disabled = !field.disabled;
     });
   }
 
